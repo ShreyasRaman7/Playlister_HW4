@@ -1,5 +1,6 @@
 import React, { createContext, useEffect, useState } from "react";
 import { useHistory } from 'react-router-dom'
+import MUILoginErrorModal from "../components/MUILoginErrorModal";
 import api from './auth-request-api'
 
 const AuthContext = createContext();
@@ -10,13 +11,15 @@ export const AuthActionType = {
     GET_LOGGED_IN: "GET_LOGGED_IN",
     LOGIN_USER: "LOGIN_USER",
     LOGOUT_USER: "LOGOUT_USER",
-    REGISTER_USER: "REGISTER_USER"
+    REGISTER_USER: "REGISTER_USER",
+    LOGIN_FAILED: "LOGIN_FAILED"
 }
 
 function AuthContextProvider(props) {
     const [auth, setAuth] = useState({
         user: null,
-        loggedIn: false
+        loggedIn: false,
+        errMessage: ""
     });
     const history = useHistory();
 
@@ -36,7 +39,8 @@ function AuthContextProvider(props) {
             case AuthActionType.LOGIN_USER: {
                 return setAuth({
                     user: payload.user,
-                    loggedIn: true
+                    loggedIn: true,
+                    errMessage: ""
                 })
             }
             case AuthActionType.LOGOUT_USER: {
@@ -49,6 +53,12 @@ function AuthContextProvider(props) {
                 return setAuth({
                     user: payload.user,
                     loggedIn: true
+                })
+            }
+            case AuthActionType.LOGIN_FAILED: { //I added to handle when login fails and added error message in auth 
+                return setAuth({
+                    user: payload.user,
+                    errMessage: payload.errMessage
                 })
             }
             default:
@@ -83,17 +93,52 @@ function AuthContextProvider(props) {
     }
 
     auth.loginUser = async function(email, password) {
-        const response = await api.loginUser(email, password);
-        if (response.status === 200) {
-            authReducer({
-                type: AuthActionType.LOGIN_USER,
+        try{
+            const response = await api.loginUser(email, password);
+
+            if (response.status === 200) {
+                authReducer({
+                    type: AuthActionType.LOGIN_USER,
+                    payload: {
+                        user: response.data.user
+                    }
+                })
+                
+                history.push("/");
+            }
+            //check for error code response 400 or 401  from server auth ,and display that error message here
+           
+        }
+        catch(err){ //actually catches the 400 and 401
+            console.log(err);
+            console.log("test print for error message in index.js:")
+            console.log(err.response.data.errorMessage)
+            
+            //MUILoginErrorModal()
+            //set up the modal to work if in here
+            authReducer({ //this auth reducer sets error message, which turn on our error logging in modal, which reads if error message !=null
+                type: AuthActionType.LOGIN_FAILED, 
                 payload: {
-                    user: response.data.user
+                    errMessage: err.response.data.errorMessage //prints error message from server response to login atmpt failed
                 }
             })
-            history.push("/");
         }
+        
+        
     }
+
+    auth.clearErrMessage = async function() {
+
+        console.log("inside clear error message in auth, blanking err message to close modal")
+
+        authReducer({ //this auth reducer sets error message, which turn on our error logging in modal, which reads if error message !=null
+            type: AuthActionType.LOGIN_FAILED, 
+            payload: {
+                errMessage: '' //clear error message to disappear modal
+            }
+        })
+    }
+
 
     auth.logoutUser = async function() {
         const response = await api.logoutUser();

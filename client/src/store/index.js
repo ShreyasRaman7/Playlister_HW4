@@ -319,16 +319,21 @@ function GlobalStoreContextProvider(props) {
     }
     store.deleteList = function (id) {
         async function processDelete(id) {
-            let response = await api.deletePlaylistById(id);
-            if (response.data.success) {
-                store.loadIdNamePairs();
+            let response = await api.deletePlaylistById(id); //this is me sending to the server
+            console.log("response data: ",response)
+            if (response.status ===200) {
+                console.log("test")
+                store.loadIdNamePairs(); //loads updated list from the server
+                console.log("list state after delete list loadIdNamePair: ", store.idNamePairs)
                 history.push("/");
             }
         }
         processDelete(id);
     }
     store.deleteMarkedList = function() {
+        console.log("deletemarkedList: ", store.idNamePairs);
         store.deleteList(store.listIdMarkedForDeletion);
+        console.log("deletemarkedList-: ", store.idNamePairs);
         store.hideModals();
     }
     // THIS FUNCTION SHOWS THE MODAL FOR PROMPTING THE USER
