@@ -4,6 +4,9 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import AuthContext from '../auth';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
+import { Button } from '@mui/material';
 
 
 const style = {
@@ -39,19 +42,26 @@ export default function MUILoginErrorModal() {
         <Modal
             open={auth.errMessage !== ''}
         >
+           
             <Box sx={style}>
+            <Alert severity="warning">
+                <AlertTitle>Warning</AlertTitle>
+                Login Error Occured — <strong>Details Below!</strong>
+            
                 <div className="modal-dialog">
                 <header className="dialog-header">
                     {auth.errMessage}
                 </header>
                 <div id="confirm-cancel-container">
-                    <button
+                    <Button variant="Contained"
                         id="dialog-yes-button"
                         className="modal-button"
                         onClick={handleCloseModal}
-                    >Close</button>
+                    >Close </Button>
                 </div>
+                
             </div>
+            </Alert>
             </Box>
         </Modal>
     );
