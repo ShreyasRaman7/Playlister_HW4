@@ -9,6 +9,7 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
+    height:200,
     width: 400,
     bgcolor: 'background.paper',
     border: '2px solid #000',
@@ -36,11 +37,11 @@ export default function MUIRemoveSongModal() {
         songTitle = store.currentSong.title;
     }
     console.log("in MUI Remove Song Modal ");
-    console.log("store.listMarkedForDeletion :", store.listMarkedForDeletion) //so the listMarkedfor deletion is null, so not showing up
+    //console.log("store.listMarkedForDeletion :", store.listMarkedForDeletion) //so the listMarkedfor deletion is null, so not showing up
 
     return (
         <Modal
-            open={store.listMarkedForDeletion !== null}
+            open={store.currentSong !== null}
         >
             <Box sx={style}>
             <div
