@@ -31,7 +31,7 @@ export default function MUIDeleteModal() {
 
     return (
         <Modal
-            open={store.currentSong !== null}
+            open={store.listMarkedForDeletion !== null}
         >
             <Box sx={style}>
                 <div className="modal-dialog">
