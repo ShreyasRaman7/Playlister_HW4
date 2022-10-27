@@ -5,6 +5,7 @@ function SongCard(props) {
     const { store } = useContext(GlobalStoreContext);
     const [ draggedTo, setDraggedTo ] = useState(0);
     const { song, index } = props;
+    
 
     function handleDragStart(event) {
         event.dataTransfer.setData("song", index);
@@ -33,11 +34,17 @@ function SongCard(props) {
         // UPDATE THE LIST
         store.addMoveSongTransaction(sourceIndex, targetIndex);
     }
-    function handleRemoveSong(event) {
+    function handleRemoveSong(event) { //shreyas is now here
+        console.log("inside Handle Remove Song, in songcard ")
+
+        //song and index are undefined going into this
+        console.log("song: ", song," index: " ,index);
         store.showRemoveSongModal(index, song);
     }
     function handleClick(event) {
-        // DOUBLE CLICK IS FOR SONG EDITING
+        // DOUBLE CLICK IS FOR SONG EDITING shreyas is now here
+
+        console.log("inside handle click for edit song double click in songcard: ")
         if (event.detail === 2) {
             store.showEditSongModal(index, song);
         }

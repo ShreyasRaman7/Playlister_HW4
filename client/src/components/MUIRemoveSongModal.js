@@ -35,6 +35,8 @@ export default function MUIRemoveSongModal() {
     if (store.currentSong) {
         songTitle = store.currentSong.title;
     }
+    console.log("in MUI Remove Song Modal ");
+    console.log("store.listMarkedForDeletion :", store.listMarkedForDeletion) //so the listMarkedfor deletion is null, so not showing up
 
     return (
         <Modal

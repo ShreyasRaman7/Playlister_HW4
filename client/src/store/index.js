@@ -176,11 +176,11 @@ function GlobalStoreContextProvider(props) {
                     idNamePairs: store.idNamePairs,
                     currentList: store.currentList,
                     currentSongIndex: payload.currentSongIndex,
-                    currentSong: payload.currentSong,
+                    currentSong: payload.currentSong, //i now check for current song in editsong modal
                     newListCounter: store.newListCounter,
                     listNameActive: false,
                     listIdMarkedForDeletion: null,
-                    listMarkedForDeletion: null
+                    listMarkedForDeletion: null,
                 });
             }
             case GlobalStoreActionType.REMOVE_SONG: {
@@ -189,7 +189,7 @@ function GlobalStoreContextProvider(props) {
                     idNamePairs: store.idNamePairs,
                     currentList: store.currentList,
                     currentSongIndex: payload.currentSongIndex,
-                    currentSong: payload.currentSong,
+                    currentSong: payload.currentSong, //check for current song when in the delete song modal
                     newListCounter: store.newListCounter,
                     listNameActive: false,
                     listIdMarkedForDeletion: null,
@@ -340,12 +340,16 @@ function GlobalStoreContextProvider(props) {
     // TO SEE IF THEY REALLY WANT TO DELETE THE LIST
 
     store.showEditSongModal = (songIndex, songToEdit) => {
+        console.log("In store.showEditSongModal")
+        console.log("songIndex: ", songIndex," songToEdit",songToEdit)
         storeReducer({
             type: GlobalStoreActionType.EDIT_SONG,
             payload: {currentSongIndex: songIndex, currentSong: songToEdit}
         });        
     }
     store.showRemoveSongModal = (songIndex, songToRemove) => {
+        console.log("entered store's show_remove_song_modal ")
+        console.log("songIndex: ",songIndex,"song To Remove: ", songToRemove) //displays right song
         storeReducer({
             type: GlobalStoreActionType.REMOVE_SONG,
             payload: {currentSongIndex: songIndex, currentSong: songToRemove}
