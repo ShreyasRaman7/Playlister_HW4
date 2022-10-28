@@ -46,7 +46,8 @@ function AuthContextProvider(props) {
             case AuthActionType.LOGOUT_USER: {
                 return setAuth({
                     user: null,
-                    loggedIn: false
+                    loggedIn: false,
+                    errMessage:''
                 })
             }
             case AuthActionType.REGISTER_USER: {
@@ -145,7 +146,8 @@ function AuthContextProvider(props) {
         if (response.status === 200) {
             authReducer( {
                 type: AuthActionType.LOGOUT_USER,
-                payload: null
+                payload: null,
+                errMessage: ''
             })
             history.push("/");
         }
