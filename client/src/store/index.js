@@ -26,6 +26,7 @@ export const GlobalStoreActionType = {
     CREATE_NEW_LIST: "CREATE_NEW_LIST",
     LOAD_ID_NAME_PAIRS: "LOAD_ID_NAME_PAIRS",
     MARK_LIST_FOR_DELETION: "MARK_LIST_FOR_DELETION",
+    UNMARK_LIST_FOR_DELETION: "MARK_LIST_FOR_DELETION",
     SET_CURRENT_LIST: "SET_CURRENT_LIST",
     SET_LIST_NAME_EDIT_ACTIVE: "SET_LIST_NAME_EDIT_ACTIVE",
     EDIT_SONG: "EDIT_SONG",
@@ -129,6 +130,19 @@ function GlobalStoreContextProvider(props) {
             }
             // PREPARE TO DELETE A LIST
             case GlobalStoreActionType.MARK_LIST_FOR_DELETION: {
+                return setStore({
+                    currentModal : CurrentModal.DELETE_LIST,
+                    idNamePairs: store.idNamePairs,
+                    currentList: null,
+                    currentSongIndex: -1,
+                    currentSong: null,
+                    newListCounter: store.newListCounter,
+                    listNameActive: false,
+                    listIdMarkedForDeletion: payload.id,
+                    listMarkedForDeletion: payload.playlist
+                });
+            }
+            case GlobalStoreActionType.UNMARK_LIST_FOR_DELETION: {
                 return setStore({
                     currentModal : CurrentModal.DELETE_LIST,
                     idNamePairs: store.idNamePairs,
@@ -317,6 +331,25 @@ function GlobalStoreContextProvider(props) {
         }
         getListToDelete(id);
     }
+
+    store.unmarkListForDeletion = function (id) { //shreyas adding now to close modal cancel
+        //store.listMarkedForDeletion !== null is the check, so we must make it null
+        console.log("unmarking list for deletion, setting marked list to null")
+            async function clearMarkedList(id) {
+                let response = await api.getPlaylistById(id);
+                if (response.data.success) {
+                    let playlist = null;
+                    
+                    storeReducer({
+                        type: GlobalStoreActionType.UNMARK_LIST_FOR_DELETION,
+                        payload: {id: id, playlist: playlist}
+                    });
+                }
+            }
+            clearMarkedList(id);
+        
+    }
+
     store.deleteList = function (id) {
         async function processDelete(id) {
             let response = await api.deletePlaylistById(id); //this is me sending to the server
