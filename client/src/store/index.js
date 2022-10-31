@@ -251,7 +251,7 @@ function GlobalStoreContextProvider(props) {
                                     type: GlobalStoreActionType.CHANGE_LIST_NAME,
                                     payload: {
                                         idNamePairs: pairsArray,
-                                        playlist: playlist
+                                        playlist: null
                                     }
                                 });
                             }
@@ -336,15 +336,11 @@ function GlobalStoreContextProvider(props) {
         //store.listMarkedForDeletion !== null is the check, so we must make it null
         console.log("unmarking list for deletion, setting marked list to null")
             async function clearMarkedList(id) {
-                let response = await api.getPlaylistById(id);
-                if (response.data.success) {
-                    let playlist = null;
-                    
-                    storeReducer({
-                        type: GlobalStoreActionType.UNMARK_LIST_FOR_DELETION,
-                        payload: {id: id, playlist: playlist}
-                    });
-                }
+                let playlist=null;
+                storeReducer({
+                    type: GlobalStoreActionType.UNMARK_LIST_FOR_DELETION,
+                    payload: { playlist: playlist}
+                });
             }
             clearMarkedList(id);
         
