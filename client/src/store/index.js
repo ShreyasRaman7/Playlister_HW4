@@ -91,7 +91,7 @@ function GlobalStoreContextProvider(props) {
                 return setStore({
                     currentModal : CurrentModal.NONE,
                     idNamePairs: store.idNamePairs,
-                    currentList: null,
+                    currentList: null, //editing 
                     currentSongIndex: -1,
                     currentSong: null,
                     newListCounter: store.newListCounter,
@@ -267,11 +267,14 @@ function GlobalStoreContextProvider(props) {
 
     // THIS FUNCTION PROCESSES CLOSING THE CURRENTLY LOADED LIST
     store.closeCurrentList = function () {
+        console.log("entered store.closeCurrentList");
         storeReducer({
             type: GlobalStoreActionType.CLOSE_CURRENT_LIST,
             payload: {}
         });
         tps.clearAllTransactions();
+        console.log(store.canUndo())
+        history.push('/')
     }
 
     // THIS FUNCTION CREATES A NEW LIST
@@ -412,10 +415,12 @@ function GlobalStoreContextProvider(props) {
 
                 response = await api.updatePlaylistById(playlist._id, playlist);
                 if (response.data.success) {
+                    tps.clearAllTransactions();
                     storeReducer({
                         type: GlobalStoreActionType.SET_CURRENT_LIST,
                         payload: playlist
                     });
+                    
                     history.push("/playlist/" + playlist._id);
                 }
             }

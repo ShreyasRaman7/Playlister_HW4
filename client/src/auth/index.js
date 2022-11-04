@@ -53,7 +53,8 @@ function AuthContextProvider(props) {
             case AuthActionType.REGISTER_USER: {
                 return setAuth({
                     user: payload.user,
-                    loggedIn: true
+                    loggedIn: true,
+                    errMessage:''
                 })
             }
             case AuthActionType.LOGIN_FAILED: { //I added to handle when login fails and added error message in auth 
@@ -81,16 +82,35 @@ function AuthContextProvider(props) {
     }
 
     auth.registerUser = async function(firstName, lastName, email, password, passwordVerify) {
-        const response = await api.registerUser(firstName, lastName, email, password, passwordVerify);      
-        if (response.status === 200) {
-            authReducer({
-                type: AuthActionType.REGISTER_USER,
+        
+        try{
+            const response = await api.registerUser(firstName, lastName, email, password, passwordVerify);      
+            if (response.status === 200) {
+                authReducer({
+                    type: AuthActionType.REGISTER_USER,
+                    payload: {
+                        user: response.data.user
+                    }
+                })
+                history.push("/login");
+            }
+        }
+        catch(err){ //actually catches the 400 and 401
+            console.log(err);
+            console.log("test print for register user error message in index.js:")
+            console.log(err.response.data.errorMessage)
+            
+            //MUILoginErrorModal()
+            //set up the modal to work if in here
+            authReducer({ //this auth reducer sets error message, which turn on our error logging in modal, which reads if error message !=null
+                type: AuthActionType.LOGIN_FAILED, 
                 payload: {
-                    user: response.data.user
+                    user: null,
+                    errMessage: err.response.data.errorMessage //prints error message from server response to login atmpt failed
                 }
             })
-            history.push("/login");
         }
+        
     }
 
     auth.loginUser = async function(email, password) {
@@ -120,6 +140,7 @@ function AuthContextProvider(props) {
             authReducer({ //this auth reducer sets error message, which turn on our error logging in modal, which reads if error message !=null
                 type: AuthActionType.LOGIN_FAILED, 
                 payload: {
+                    user: null,
                     errMessage: err.response.data.errorMessage //prints error message from server response to login atmpt failed
                 }
             })

@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext ,useState} from 'react';
 import AuthContext from '../auth'
 import Copyright from './Copyright'
 
@@ -12,10 +12,15 @@ import Link from '@mui/material/Link';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import MUIRegisterErrorModal from "./MUIRegisterErrorModal";
+
+
 
 export default function RegisterScreen() {
+    
     const { auth } = useContext(AuthContext);
 
+    const[openLoginModal,closeLoginModal] = useState(false);
     const handleSubmit = (event) => {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
@@ -30,6 +35,7 @@ export default function RegisterScreen() {
 
     return (
             <Container component="main" maxWidth="xs">
+                <MUIRegisterErrorModal openLoginModal={openLoginModal} ></MUIRegisterErrorModal>
                 <CssBaseline />
                 <Box
                     sx={{
