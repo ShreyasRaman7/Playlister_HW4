@@ -20,6 +20,10 @@ body {
   background-color: var(--swatch-foundation);
 }
 
+#youtube_test_player {
+  border: solid 4px #37474F
+}
+
 #root {
   background-color: var(--swatch-primary);
   font-family: "Lexend Exa";
