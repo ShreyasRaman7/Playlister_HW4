@@ -29,7 +29,7 @@ export default function SplashScreen() {
 
 
                 <Box>
-                    <Link to='/home/' >
+                    <Link to='/allLists/' >
                         <Button variant="contained" sx={{ fontSize: 18, backgroundColor: 'periwinkle' }}>
                             Continue as Guest
                         </Button>

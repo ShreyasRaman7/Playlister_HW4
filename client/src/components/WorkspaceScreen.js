@@ -4,8 +4,11 @@ import SongCard from './SongCard.js'
 import MUIEditSongModal from './MUIEditSongModal'
 import MUIRemoveSongModal from './MUIRemoveSongModal'
 import Box from '@mui/material/Box';
+import Button from "@mui/material/Button"
 import List from '@mui/material/List';
 import { GlobalStoreContext } from '../store/index.js'
+
+
 /*
     This React component lets us edit a loaded list, which only
     happens when we are on the proper route.
@@ -23,8 +26,21 @@ function WorkspaceScreen() {
     else if (store.isRemoveSongModalOpen()) {
         modalJSX = <MUIRemoveSongModal />;
     }
+
+    function publishButtonClickHandler(event){
+        console.log('publish button clicked')
+        console.log(store.currentList)
+        
+        store.publishPlaylist()
+
+
+    }
+
     return (
         <Box>
+        <h2>YouTube Playlist Example</h2>
+            <script src="./js/YouTubePlaylister.js"></script>
+            <div id="youtube_player"></div>
         <List 
             id="playlist-cards" 
             sx={{ width: '100%', bgcolor: 'background.paper' }}
@@ -39,7 +55,9 @@ function WorkspaceScreen() {
                     />
                 ))  
             }
-         </List>            
+         </List> 
+         
+        <Button onClick= {publishButtonClickHandler} variant="contained">Publish Playlist</Button>      
          { modalJSX }
          </Box>
     )

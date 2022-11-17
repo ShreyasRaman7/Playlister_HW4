@@ -17,6 +17,7 @@ import Typography from '@mui/material/Typography';
 import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import logo from './playlisterLogo.png';
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import TextField from '@mui/material/TextField';
 
 export default function SubAppBanner2() {
@@ -113,7 +114,7 @@ export default function SubAppBanner2() {
         setQuery('');
         console.log("tempQuery: ", tempQuery)
         //setTempQuery(tempQuery);
-        
+
 
 
     }
@@ -141,7 +142,7 @@ export default function SubAppBanner2() {
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static" >
+            <AppBar position="static" style={{ background: '#40E0D0' }}>
                 <Toolbar>
                     <Typography                        
                         variant="h4"
@@ -150,7 +151,9 @@ export default function SubAppBanner2() {
                         sx={{ display: { xs: 'none', sm: 'block' } }}                        
                     >
                         <Link style={{ textDecoration: 'none', color: 'white' }} to='/'> <HomeOutlinedIcon/> </Link>
-                        <Link style={{ textDecoration: 'none', color: 'white' }} to='/'> <GroupsOutlinedIcon/> </Link>
+                        <Link style={{ textDecoration: 'none', color: 'white' }} to='/allLists'> <GroupsOutlinedIcon/> </Link>
+                        <Link style={{ textDecoration: 'none', color: 'white' }} to='/'> <PersonOutlineOutlinedIcon/> </Link>
+                        
                         
                         <TextField
                         id="outlined-name"
@@ -163,17 +166,7 @@ export default function SubAppBanner2() {
                     </Typography>
                     <Box sx={{ flexGrow: 1 }}>{editToolbar}</Box>
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                        <IconButton
-                            size="large"
-                            edge="end"
-                            aria-label="account of current user"
-                            aria-controls={menuId}
-                            aria-haspopup="true"
-                            onClick={handleProfileMenuOpen}
-                            color="inherit"
-                        >
-                            { getAccountMenu(auth.loggedIn) }
-                        </IconButton>
+                        
                     </Box>
                 </Toolbar>
             </AppBar>

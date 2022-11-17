@@ -10,14 +10,14 @@ import List from '@mui/material/List';
 import Typography from '@mui/material/Typography'
 /*
     This React component lists all the top5 lists in the UI.
-    
+    this is currently copied from homscreen view where we are usually signed in
     @author McKilla Gorilla
 */
-const HomeScreen = () => {
+const AllListsScreen = () => {
     const { store } = useContext(GlobalStoreContext);
 
     useEffect(() => {
-        store.loadIdNamePairs();
+        // store.loadIdNamePairs(); //need to uncomment or replace later for working
     }, []);
 
     function handleCreateNewList() {
@@ -40,7 +40,9 @@ const HomeScreen = () => {
     }
     return (
         <div id="playlist-selector">
-            
+            <h2>YouTube Playlist Example</h2>
+            <script src="./js/YouTubePlaylister.js"></script>
+            <div id="youtube_player"></div>
             
 
             <div id="list-selector-list">
@@ -50,18 +52,10 @@ const HomeScreen = () => {
                 <MUIDeleteModal />
             </div>
             <div id="list-selector-heading">
-            <Fab 
-                color="primary" 
-                aria-label="add"
-                id="add-list-button"
-                onClick={handleCreateNewList}
-            >
-                <AddIcon />
-            </Fab>
-                <Typography variant="h2">Your Lists</Typography>
+            
             </div>
             
         </div>)
 }
 
-export default HomeScreen;
+export default AllListsScreen;

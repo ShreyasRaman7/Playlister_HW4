@@ -12,7 +12,8 @@ import {
     WorkspaceScreen,
     SubAppBanner,
     SubAppBanner2,
-    SearchAppBanner
+    SearchAppBanner,
+    AllListsScreen
 } from './components'
 /*
     This is our application's top-level component.
@@ -36,6 +37,7 @@ const App = () => {
                 
                     <Switch>
                         <Route path="/" exact component={HomeWrapper} />
+                        <Route path="/allLists" exact component={AllListsScreen} />
                         <Route path="/login/" exact component={LoginScreen} />
                         <Route path="/register/" exact component={RegisterScreen} />
                         <Route path="/playlist/:id" exact component={WorkspaceScreen} />

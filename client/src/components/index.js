@@ -15,6 +15,7 @@ import WorkspaceScreen from './WorkspaceScreen'
 import SubAppBanner from './SubAppBanner'
 import SubAppBanner2 from './SubAppBanner2'
 import SearchAppBanner from "./SearchAppBanner"
+import AllListsScreen from "./AllListsScreen"
 /*
     This serves as a module so that we can import
     all the other components as we wish.
@@ -22,6 +23,7 @@ import SearchAppBanner from "./SearchAppBanner"
     @author McKilla Gorilla
 */
 export { 
+    AllListsScreen,
     AppBanner,  
     SubAppBanner,
     SubAppBanner2,
