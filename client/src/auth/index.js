@@ -92,7 +92,7 @@ function AuthContextProvider(props) {
                         user: response.data.user
                     }
                 })
-                history.push("/login");
+                history.push("/");
             }
         }
         catch(err){ //actually catches the 400 and 401

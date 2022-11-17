@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import { GlobalStoreContext } from '../store'
 import ListCard from './ListCard.js'
 import MUIDeleteModal from './MUIDeleteModal'
+import YoutubePlaylister from './YoutubePlaylister'
 
 import AddIcon from '@mui/icons-material/Add';
 import Fab from '@mui/material/Fab'
@@ -39,7 +40,11 @@ const HomeScreen = () => {
     }
     return (
         <div id="playlist-selector">
+            <h2>YouTube Playlist Example</h2>
+            <script src="./js/YouTubePlaylister.js"></script>
+            <div id="youtube_player"></div>
             
+
             <div id="list-selector-list">
                 {
                     listCard
