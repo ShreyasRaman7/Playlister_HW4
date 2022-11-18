@@ -39,7 +39,7 @@ function WorkspaceScreen() {
     return (
         <Box>
         <h2>YouTube Playlist Example</h2>
-            <script src="./js/YouTubePlaylister.js"></script>
+            
             <div id="youtube_player"></div>
         <List 
             id="playlist-cards" 

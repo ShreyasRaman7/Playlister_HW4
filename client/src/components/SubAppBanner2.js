@@ -142,7 +142,7 @@ export default function SubAppBanner2() {
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static" style={{ background: '#40E0D0' }}>
+            <AppBar position="static" style={{ background: '#D7ECD9' }}>
                 <Toolbar>
                     <Typography                        
                         variant="h4"
@@ -150,18 +150,24 @@ export default function SubAppBanner2() {
                         component="div"
                         sx={{ display: { xs: 'none', sm: 'block' } }}                        
                     >
-                        <Link style={{ textDecoration: 'none', color: 'white' }} to='/'> <HomeOutlinedIcon/> </Link>
-                        <Link style={{ textDecoration: 'none', color: 'white' }} to='/allLists'> <GroupsOutlinedIcon/> </Link>
-                        <Link style={{ textDecoration: 'none', color: 'white' }} to='/'> <PersonOutlineOutlinedIcon/> </Link>
+                        <Link style={{ textDecoration: 'none', color: 'crimson' }} to='/'> <HomeOutlinedIcon/> </Link>
+                        <Link style={{ textDecoration: 'none', color: 'crimson' }} to='/allLists'> <GroupsOutlinedIcon/> </Link>
+                        <Link style={{ textDecoration: 'none', color: 'crimson' }} to='/'> <PersonOutlineOutlinedIcon/> </Link>
                         
-                        
+                        <box backgroundColor="white">
                         <TextField
+                        variant="outlined" 
+                        backgroundColor="success"
+                        color="warning"
+                        focused 
                         id="outlined-name"
                         label=""
                         value={query}
                         onChange={handleSearchChange}
                         onKeyDown={(e)=>handleEnterKeyPress(e)}
                         />
+                        </box>
+                        
 
                     </Typography>
                     <Box sx={{ flexGrow: 1 }}>{editToolbar}</Box>

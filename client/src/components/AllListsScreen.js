@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import { GlobalStoreContext } from '../store'
 import ListCard from './ListCard.js'
 import MUIDeleteModal from './MUIDeleteModal'
-import YoutubePlaylister from './YoutubePlaylister'
+import YouTubePlayerExample from './PlaylisterYouTubePlayer.js'
 
 import AddIcon from '@mui/icons-material/Add';
 import Fab from '@mui/material/Fab'
@@ -17,7 +17,7 @@ const AllListsScreen = () => {
     const { store } = useContext(GlobalStoreContext);
 
     useEffect(() => {
-        // store.loadIdNamePairs(); //need to uncomment or replace later for working
+         store.loadPublishedPlaylists(); //need to uncomment or replace later for working
     }, []);
 
     function handleCreateNewList() {
@@ -33,6 +33,7 @@ const AllListsScreen = () => {
                         key={pair._id}
                         idNamePair={pair}
                         selected={false}
+                        canEdit={false}
                     />
                 ))
             }
@@ -40,9 +41,11 @@ const AllListsScreen = () => {
     }
     return (
         <div id="playlist-selector">
-            <h2>YouTube Playlist Example</h2>
-            <script src="./js/YouTubePlaylister.js"></script>
-            <div id="youtube_player"></div>
+            <div id='youtube_tab'>
+                <h2>YouTube Playlist Example</h2>
+                {/* <YouTubePlayerExample /> */}
+            </div>
+            
             
 
             <div id="list-selector-list">

@@ -6,7 +6,7 @@
 // THIS WILL STORE OUR YOUTUBE PLAYER
 let player;
 let PLAYER_NAME = 'youtube_player';
-console.log("entered youtubePlaylister.js");
+console.log("entered .js");
 // THIS HAS THE YOUTUBE IDS FOR THE SONGS IN OUR PLAYLIST
 let playlist = [
   "mqmxkGjow1A",

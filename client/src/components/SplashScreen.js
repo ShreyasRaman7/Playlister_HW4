@@ -5,15 +5,23 @@ import logo from './playlisterLogo.png';
 export default function SplashScreen() {
     const styleObj1 = {
         fontSize: 28,
-        color: "#4a54f1",
+        color: "white",
         textAlign: "center",
-        paddingTop: "100px",
+        paddingTop: "080px",
     }
     const styleObj2 = {
         fontSize: 50,
         color: "Black",
         textAlign: "top",
-        paddingTop: "60px",
+        paddingTop: "10px",
+        margintop:0
+    }
+    const styleObj3 = {
+        fontSize: 75,
+        color: "gold",
+        textAlign: "top",
+        paddingTop: "100px",
+        margintop:10
     }
     return (
         <div id="splash-screen">
@@ -45,14 +53,15 @@ export default function SplashScreen() {
                     </Link>
                 </Box>
             </Box>
-            Welcome to Playlister                
+                  
+            <span  style={styleObj3}>Welcome to Playlister</span>          
             
             <p style={styleObj1}>A site where you can create, view, and search for the best song playlists compiled by the students of CSE 316!</p>
             
-            <span></span>
-            <img src={logo} alt="Logo" />
+           
+            <img src={logo} alt="Logo"  height={100}/>
 
-            <p style={styleObj2}>By Shreyas Raman</p>
+            <p style={styleObj2} >By Shreyas Raman</p>
 
 
             

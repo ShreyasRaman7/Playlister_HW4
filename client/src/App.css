@@ -243,6 +243,10 @@ body {
 input {
   font-size: 20pt;
 }
+.textfield {
+  background-color: rgb(255, 255, 255);
+  color: rgb(174, 203, 174);
+}
 
 .top5-item,
 .top5-item-dragged-to {

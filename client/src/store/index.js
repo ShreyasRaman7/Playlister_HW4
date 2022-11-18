@@ -464,6 +464,9 @@ function GlobalStoreContextProvider(props) {
         let index = this.getPlaylistSize();
         this.addCreateSongTransaction(index, "Untitled", "?", "dQw4w9WgXcQ");
     }
+
+
+
     // THIS FUNCTION CREATES A NEW SONG IN THE CURRENT LIST
     // USING THE PROVIDED DATA AND PUTS THIS SONG AT INDEX
     store.createSong = function(index, song) {
@@ -582,6 +585,23 @@ function GlobalStoreContextProvider(props) {
     }
     store.canClose = function() {
         return (store.currentList !== null);
+    }
+
+    store.loadPublishedPlaylists = async function() {
+        async function loadPublishedPlaylists() {
+            const response = await api.getPublishedPlaylists();
+            if (response.data.success) {
+                let pairsArray = response.data.data;
+                storeReducer({
+                    type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
+                    payload: pairsArray
+                });
+            }
+            else {
+                console.log("API FAILED TO GET THE published playlists");
+            }
+        }
+        loadPublishedPlaylists();
     }
 
     // THIS FUNCTION ENABLES THE PROCESS OF EDITING A LIST NAME
