@@ -2,8 +2,13 @@ import React, { useContext, useEffect } from 'react'
 import { GlobalStoreContext } from '../store'
 import ListCard from './ListCard.js'
 import MUIDeleteModal from './MUIDeleteModal'
+import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import logo from './logo.svg';
+import './AppYT.css';
 import YouTubePlayerExample from './PlaylisterYouTubePlayer.js'
-
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import AddIcon from '@mui/icons-material/Add';
 import Fab from '@mui/material/Fab'
 import List from '@mui/material/List';
@@ -39,26 +44,52 @@ const AllListsScreen = () => {
             }
             </List>;
     }
-    return (
-        <div id="playlist-selector">
-            <div id='youtube_tab'>
-                <h2>YouTube Playlist Example</h2>
-                {/* <YouTubePlayerExample /> */}
-            </div>
+    return(
+    <div class="grid-container">
+
+    <div class="grid-child purple">
+        Grid Column 1
+        <div id="list-selector-list">
+            {listCard}
+            <MUIDeleteModal />
+        </div>
+    </div>
+
+    <div class="grid-child green">
+        Grid Column 2
+        <ButtonGroup variant="contained" aria-label="outlined primary button group">
+  <Button>Youtube Player</Button>
+  <Button>Comments</Button>
+</ButtonGroup>
+        <div id="playlist-selector"></div>
+        <div id='youtube_tab'>
+        <YouTubePlayerExample />
+        </div>
+
+    </div>
+  
+</div>)
+    // return (
+        
+    //     <div id="playlist-selector">
+    //         <div id='youtube_tab'>
+    //             <h2>YouTube Playlist Example</h2>
+    //             <YouTubePlayerExample />
+    //         </div>
             
             
 
-            <div id="list-selector-list">
-                {
-                    listCard
-                }
-                <MUIDeleteModal />
-            </div>
-            <div id="list-selector-heading">
+    //         <div id="list-selector-list">
+    //             {
+    //                 listCard
+    //             }
+    //             <MUIDeleteModal />
+    //         </div>
+    //         <div id="list-selector-heading">
             
-            </div>
+    //         </div>
             
-        </div>)
+    //     </div>)
 }
 
 export default AllListsScreen;

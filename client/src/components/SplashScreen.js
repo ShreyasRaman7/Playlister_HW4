@@ -53,8 +53,11 @@ export default function SplashScreen() {
                     </Link>
                 </Box>
             </Box>
-                  
-            <span  style={styleObj3}>Welcome to Playlister</span>          
+                
+            
+
+
+            <span class="welcomeText" style={styleObj3}>Welcome to Playlister</span>          
             
             <p style={styleObj1}>A site where you can create, view, and search for the best song playlists compiled by the students of CSE 316!</p>
             
