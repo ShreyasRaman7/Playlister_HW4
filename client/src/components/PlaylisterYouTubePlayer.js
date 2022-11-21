@@ -1,5 +1,7 @@
 import React from 'react';
 import YouTube from 'react-youtube';
+import { useContext } from 'react'
+import { GlobalStoreContext } from '../store'
 
 export default function YouTubePlayerExample() {
     // THIS EXAMPLE DEMONSTRATES HOW TO DYNAMICALLY MAKE A
@@ -8,23 +10,41 @@ export default function YouTubePlayerExample() {
     // FROM ONE SONG TO THE NEXT
 
     // THIS HAS THE YOUTUBE IDS FOR THE SONGS IN OUR PLAYLIST
+
+
     let playlist = [
+        "vfXLHvkMilU",
         "mqmxkGjow1A",
         "8RbXIMZmVv8",
         "8UbNbor3OqQ"
     ];
+    let testPlaylist1=playlist
+    //replace playlist with playlist passed by listcard in allListsScreen
+
+    const { store } = useContext(GlobalStoreContext);
+    if(store && store.currentPlayerList){
+        playlist=store.currentPlayerList    
+        console.log("store.currentPlayerList : ",store.currentPlayerList )
+    }
+    
+    //playlist=testPlaylist1
 
     // THIS IS THE INDEX OF THE SONG CURRENTLY IN USE IN THE PLAYLIST
     let currentSong = 0;
-
+    //height: '390',
+    //width: '640',
     const playerOptions = {
-        height: '390',
-        width: '640',
+        height: '250',
+        width: '440',
         playerVars: {
             // https://developers.google.com/youtube/player_parameters
             autoplay: 0,
         },
     };
+
+    function changePlaylist(newPlaylist){
+        playlist=newPlaylist;
+    }
 
     // THIS FUNCTION LOADS THE CURRENT SONG INTO
     // THE PLAYER AND PLAYS IT

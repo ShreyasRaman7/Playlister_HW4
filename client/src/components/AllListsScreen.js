@@ -13,6 +13,8 @@ import AddIcon from '@mui/icons-material/Add';
 import Fab from '@mui/material/Fab'
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography'
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 /*
     This React component lists all the top5 lists in the UI.
     this is currently copied from homscreen view where we are usually signed in
@@ -44,23 +46,34 @@ const AllListsScreen = () => {
             }
             </List>;
     }
+    
+
+
+
     return(
     <div class="grid-container">
-
-    <div class="grid-child purple">
-        Grid Column 1
+    
+    <div class="grid-child-purple">
+        {/* Grid Column 1 */}
+        <span>AllListsScreen -user is like a guest</span>
         <div id="list-selector-list">
             {listCard}
             <MUIDeleteModal />
         </div>
     </div>
 
-    <div class="grid-child green">
-        Grid Column 2
-        <ButtonGroup variant="contained" aria-label="outlined primary button group">
+    <div class="grid-child-green">
+        {/* Grid Column 2 */}
+        
+        
+        {/* <ButtonGroup variant="contained" aria-label="outlined primary button group">
   <Button>Youtube Player</Button>
   <Button>Comments</Button>
-</ButtonGroup>
+</ButtonGroup> */}
+
+        {/* insert tab code here */}
+
+
         <div id="playlist-selector"></div>
         <div id='youtube_tab'>
         <YouTubePlayerExample />

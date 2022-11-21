@@ -38,6 +38,7 @@ function WorkspaceScreen() {
 
     return (
         <Box>
+        <span>Workspace Screen</span>    
         <h2>YouTube Playlist Example</h2>
             
             <div id="youtube_player"></div>

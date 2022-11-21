@@ -144,6 +144,19 @@ body {
   justify-content: center;
 }
 
+#grid-child-green{
+
+  background-color: blue;
+  flex: 50%;
+  width:50%;
+}
+#grid-child-purple{
+  flex: 50%;
+  background-color: blue;
+  width:50%;
+}
+
+
 #add-list-button {
   float: left;
 }

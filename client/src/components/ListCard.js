@@ -22,7 +22,7 @@ function ListCard(props) {
     const [text, setText] = useState("");
     const { idNamePair, selected } = props;
 
-    console.log(props)
+    //console.log(props)
 
     function handleLoadList(event, id) {
         console.log("handleLoadList for " + id);
@@ -37,6 +37,8 @@ function ListCard(props) {
             store.setCurrentList(id);
         }
     }
+
+    
 
     function handleToggleEdit(event) {
         event.stopPropagation();
@@ -69,6 +71,26 @@ function ListCard(props) {
         setText(event.target.value);
     }
 
+    // function handleLoadList(event, id) {
+    //     console.log("handleLoadList for " + id);
+    //     if (!event.target.disabled) {
+    //         let _id = event.target.id;
+    //         if (_id.indexOf('list-card-text-') >= 0)
+    //             _id = ("" + _id).substring("list-card-text-".length);
+
+    //         console.log("load " + event.target.id);
+
+    //         // CHANGE THE CURRENT LIST
+    //         store.setCurrentList(id);
+    //     }
+    // }
+
+    function handleGetPlaylistForPlayer(id){ //using to get playlist to play in player
+        console.log("handleGetPlaylistForPlayer for id: " + id);
+        store.getPlaylistForPlayer1(id);
+        // console.log(store.getPlaylistForPlayer(id));
+    }
+
     let selectClass = "unselected-list-card";
     
     if (selected) {
@@ -86,7 +108,19 @@ function ListCard(props) {
             style={{ width: '100%', fontSize: '20pt' }}
             button
             onClick={(event) => {
-                handleLoadList(event, idNamePair._id)
+                if(!props.canEdit){
+                    console.log("(!props.canEdit): user not signed in, will play playlist");
+                    console.log('now sending playlist of youtube ids to player');
+                    handleGetPlaylistForPlayer(idNamePair._id);
+                    //store.getPlaylistForPlayer();
+
+
+                }
+                else{
+                    console.log("(props.canEdit): user is signed in, will play playlist");
+                    handleLoadList(event, idNamePair._id)
+                }
+                
             }}
         >
             <Box sx={{ p: 1, flexGrow: 1 }}>{idNamePair.name}</Box>

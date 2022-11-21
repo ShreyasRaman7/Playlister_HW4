@@ -16,5 +16,6 @@ router.get('/playlistpairs', auth.verify, PlaylistController.getPlaylistPairs)
 router.get('/playlists', auth.verify, PlaylistController.getPlaylists)
 router.put('/playlist/:id', auth.verify, PlaylistController.updatePlaylist)
 router.get('/publishedPlaylists',  PlaylistController.getPublishedPlaylists)
+router.get('/guestGetPlaylist/:id',  PlaylistController.guestGetPlaylistById) //for guests to access playlist songs in youtube player
 
 module.exports = router

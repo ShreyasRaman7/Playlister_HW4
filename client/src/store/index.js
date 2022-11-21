@@ -32,7 +32,8 @@ export const GlobalStoreActionType = {
     EDIT_SONG: "EDIT_SONG",
     REMOVE_SONG: "REMOVE_SONG",
     HIDE_MODALS: "HIDE_MODALS",
-    PUBLISH_PLAYLIST: "PUBLISH_PLAYLIST"
+    PUBLISH_PLAYLIST: "PUBLISH_PLAYLIST",
+    SET_CURRENT_PLAYER_LIST: "SET_CURRENT_PLAYER_LIST",
 }
 
 // WE'LL NEED THIS TO PROCESS TRANSACTIONS
@@ -58,7 +59,8 @@ function GlobalStoreContextProvider(props) {
         newListCounter: 0,
         listNameActive: false,
         listIdMarkedForDeletion: null,
-        listMarkedForDeletion: null
+        listMarkedForDeletion: null,
+        currentPlayerList:['mqmxkGjow1A']
     });
     const history = useHistory();
 
@@ -183,6 +185,23 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: null
                 });
             }
+
+            // UPDATE A LIST
+            case GlobalStoreActionType.SET_CURRENT_PLAYER_LIST: {
+                return setStore({
+                    currentModal : CurrentModal.NONE,
+                    idNamePairs: store.idNamePairs,
+                    currentList: payload,
+                    currentSongIndex: -1,
+                    currentSong: null,
+                    newListCounter: store.newListCounter,
+                    listNameActive: false,
+                    listIdMarkedForDeletion: null,
+                    listMarkedForDeletion: null,
+                    currentPlayerList: payload
+                });
+            }
+
             // START EDITING A LIST NAME
             case GlobalStoreActionType.SET_LIST_NAME_EDIT_ACTIVE: {
                 return setStore({
@@ -456,6 +475,52 @@ function GlobalStoreContextProvider(props) {
         }
         asyncSetCurrentList(id);
     }
+
+    store.getPlaylistForPlayer1 = function (id) {
+        async function asyncGetPlaylistForPlayer(id) {
+            let songsYtArray = [];
+            console.log('testing console log')
+            let response = await api.getPlaylistForPlayer(id); 
+            //the id is there, and response is undefined
+            if (response.data.success) {
+                let playlist = response.data.playlist;
+                console.log("playlist: ",playlist);
+                console.log("Playlist Songs: ", playlist.songs);
+                
+                let i=0;
+                for(i;i<playlist.songs.length;i++) {
+                    songsYtArray.push(playlist.songs[i].youTubeId)
+                }
+                console.log("songsYtArray: ",songsYtArray)
+                if(songsYtArray ){
+                    storeReducer({
+                        type: GlobalStoreActionType.SET_CURRENT_PLAYER_LIST,
+                        payload: songsYtArray
+                    });
+                    console.log("SET_CURRENT_PLAYER_LIST : ",songsYtArray)
+                }
+                
+                //return(songsYtArray);
+                
+                //to pass an array from store to YoutubePlaylister.js
+                //can we call YoutubePlaylister function changePlaylist()
+                
+            }
+        }
+        asyncGetPlaylistForPlayer(id);
+    }
+
+    // store.getPlaylistForPlayer = function (id) {
+    //     async function asyncGetPlaylistForPlayer(id) {
+    //         let response = await api.getPlaylistForPlayer(id);
+    //         if (response.data.success) {
+    //             let playlist = response.data.playlist;
+    //             console.log("playlist: ",playlist);
+    //         }
+    //     asyncGetPlaylistForPlayer(id);
+    //     }
+    // }
+
 
     store.getPlaylistSize = function() {
         return store.currentList.songs.length;
