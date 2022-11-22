@@ -1,5 +1,10 @@
 import React from 'react';
 import YouTube from 'react-youtube';
+import PauseIcon from '@mui/icons-material/Pause';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import FastForwardIcon from '@mui/icons-material/FastForward';
+import FastRewindIcon from '@mui/icons-material/FastRewind';
+import Button from '@mui/material/Button';
 import { useContext } from 'react'
 import { GlobalStoreContext } from '../store'
 
@@ -8,12 +13,9 @@ export default function YouTubePlayerExample() {
     // YOUTUBE PLAYER AND EMBED IT IN YOUR SITE. IT ALSO
     // DEMONSTRATES HOW TO IMPLEMENT A PLAYLIST THAT MOVES
     // FROM ONE SONG TO THE NEXT
-
+    let myPlayer= null
     // THIS HAS THE YOUTUBE IDS FOR THE SONGS IN OUR PLAYLIST
-
-
     let playlist = [
-        "vfXLHvkMilU",
         "mqmxkGjow1A",
         "8RbXIMZmVv8",
         "8UbNbor3OqQ"
@@ -26,25 +28,18 @@ export default function YouTubePlayerExample() {
         playlist=store.currentPlayerList    
         console.log("store.currentPlayerList : ",store.currentPlayerList )
     }
-    
-    //playlist=testPlaylist1
 
     // THIS IS THE INDEX OF THE SONG CURRENTLY IN USE IN THE PLAYLIST
     let currentSong = 0;
-    //height: '390',
-    //width: '640',
+
     const playerOptions = {
-        height: '250',
-        width: '440',
+        height: '390',
+        width: '640',
         playerVars: {
             // https://developers.google.com/youtube/player_parameters
             autoplay: 0,
         },
     };
-
-    function changePlaylist(newPlaylist){
-        playlist=newPlaylist;
-    }
 
     // THIS FUNCTION LOADS THE CURRENT SONG INTO
     // THE PLAYER AND PLAYS IT
@@ -58,20 +53,63 @@ export default function YouTubePlayerExample() {
     function incSong() {
         currentSong++;
         currentSong = currentSong % playlist.length;
+        let song = playlist[currentSong];
+        myPlayer.loadVideoById(song);
+        myPlayer.playVideo();
+
+    }
+
+    function decSong() {
+        
+        if(currentSong!=0){
+            console.log("current song: ",currentSong)
+            currentSong-=1;
+            
+        }
+        else{
+            currentSong=playlist.length-1
+        }
+            //currentSong = currentSong % playlist.length;
+            let song = playlist[currentSong];
+            myPlayer.loadVideoById(song);
+            myPlayer.playVideo();
+
     }
 
     function onPlayerReady(event) {
+        myPlayer =event.target
         loadAndPlayCurrentSong(event.target);
         event.target.playVideo();
+        console.log("event target, the player",event.target)
+        
     }
 
+
+    function prevClickHandler(){
+        console.log(" prev clicked, now in prevClickHandler ");
+        decSong();
+      }
+      function pauseClickHandler(){
+        console.log(" pause clicked, now in pauseClickHandler ");
+        myPlayer.pauseVideo();
+      }
+      function playClickHandler(){
+        console.log(" play clicked, now in playClickHandler ");
+        myPlayer.playVideo();
+        
+      }
+      function nextClickHandler(){
+        console.log(" next clicked, now in nextClickHandler ");
+        incSong();
+      }
     // THIS IS OUR EVENT HANDLER FOR WHEN THE YOUTUBE PLAYER'S STATE
     // CHANGES. NOTE THAT playerStatus WILL HAVE A DIFFERENT INTEGER
     // VALUE TO REPRESENT THE TYPE OF STATE CHANGE. A playerStatus
     // VALUE OF 0 MEANS THE SONG PLAYING HAS ENDED.
-    function onPlayerStateChange(event) {
-        let playerStatus = event.data;
-        let player = event.target;
+    function onPlayerStateChange(playerStatus,player) {
+        console.log(player)
+        // let playerStatus = event.data;
+        // let player = event.target;
         if (playerStatus === -1) {
             // VIDEO UNSTARTED
             console.log("-1 Video unstarted");
@@ -82,6 +120,7 @@ export default function YouTubePlayerExample() {
             loadAndPlayCurrentSong(player);
         } else if (playerStatus === 1) {
             // THE VIDEO IS PLAYED
+            
             console.log("1 Video played");
         } else if (playerStatus === 2) {
             // THE VIDEO IS PAUSED
@@ -95,9 +134,19 @@ export default function YouTubePlayerExample() {
         }
     }
 
-    return <YouTube
+    return (
+    <div>
+    <YouTube
         videoId={playlist[currentSong]}
         opts={playerOptions}
         onReady={onPlayerReady}
-        onStateChange={onPlayerStateChange} />;
+        onStateChange={(e)=>onPlayerStateChange(e.data,e.target)} />
+    <Button onClick={prevClickHandler} variant="contained"><FastRewindIcon /></Button>
+        <Button onClick={pauseClickHandler} variant="contained"><PauseIcon /></Button>
+        <Button onClick={playClickHandler} variant="contained"><PlayArrowIcon /></Button>
+        <Button onClick={nextClickHandler} variant="contained"><FastForwardIcon /></Button>
+    </div>
+    
+    )
+
 }
