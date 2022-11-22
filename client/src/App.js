@@ -27,13 +27,14 @@ import {
   @author McKilla Gorilla
 */
 const App = () => {   
+    // find where I am (/current path from url) if path=/home, then render, for example
     return (
         <BrowserRouter>
             <AuthContextProvider>
                 <GlobalStoreContextProvider>              
                 <AppBanner />
-                
-                <SubAppBanner2 />
+                {true ? <SubAppBanner2 /> :<> </>}
+                {/* <SubAppBanner2 /> */}
                 
                     <Switch>
                         <Route path="/" exact component={HomeWrapper} />

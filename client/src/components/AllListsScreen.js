@@ -12,9 +12,21 @@ import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import AddIcon from '@mui/icons-material/Add';
 import Fab from '@mui/material/Fab'
 import List from '@mui/material/List';
-import Typography from '@mui/material/Typography'
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+import PauseIcon from '@mui/icons-material/Pause';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import FastForwardIcon from '@mui/icons-material/FastForward';
+import FastRewindIcon from '@mui/icons-material/FastRewind';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import { useState } from 'react';
+import TextField from '@mui/material/TextField';
 /*
     This React component lists all the top5 lists in the UI.
     this is currently copied from homscreen view where we are usually signed in
@@ -47,7 +59,73 @@ const AllListsScreen = () => {
             </List>;
     }
     
+    const[userComment,setUserComment]=useState("");
 
+  //const [query,setQuery] = useState('');
+
+    //const [tempQuery,setTempQuery] = useState(''); //trying to set state for tempQuery
+    
+    
+    
+    function enterKey_Listener_for_Search(event){
+        console.log('enterKey_Listener_for_Search has been entered')
+        const tempUserComment=userComment
+        //console.log("tempQuery: ", tempUserComment)
+        setUserComment('');
+        console.log("tempQuery: ", tempUserComment)
+        //setTempQuery(tempQuery);
+
+
+    }
+
+    function handleQueryChange(event){
+        console.log("entered handleQueryChange");
+        setUserComment(event.target.value); 
+        console.log("setQuery",event.target.value )
+        if (event.key === 'Enter') { 
+            console.log('do validate')
+            enterKey_Listener_for_Search(event)
+          }
+        
+        //to submit the query
+        
+    }
+    
+    function handleEnterKeyPress(e){
+        if (e.key === "Enter"){
+            console.log('enter key has been pressed')
+            enterKey_Listener_for_Search(e)
+        }
+    }
+
+
+  const handleSetUserComment = (event) => {
+    setUserComment(event.target.value);
+  };
+
+  const handleSubmit = () => {console.log('submitted comment')}
+  
+  const [tabIndex, setTabIndex] = useState(0);
+
+  const handleTabChange = (event, newTabIndex) => {
+    setTabIndex(newTabIndex);
+  };
+
+  
+
+  function prevClickHandler(){
+    console.log(" prev clicked, now in prevClickHandler ");
+  }
+  function pauseClickHandler(){
+    console.log(" pause clicked, now in pauseClickHandler ");
+  }
+  function playClickHandler(){
+    console.log(" play clicked, now in playClickHandler ");
+
+  }
+  function nextClickHandler(){
+    console.log(" next clicked, now in nextClickHandler ");
+  }
 
 
     return(
@@ -63,46 +141,64 @@ const AllListsScreen = () => {
     </div>
 
     <div class="grid-child-green">
-        {/* Grid Column 2 */}
-        
-        
-        {/* <ButtonGroup variant="contained" aria-label="outlined primary button group">
-  <Button>Youtube Player</Button>
-  <Button>Comments</Button>
-</ButtonGroup> */}
-
-        {/* insert tab code here */}
-
-
-        <div id="playlist-selector"></div>
-        <div id='youtube_tab'>
+    <div className="App">
+      <div className="YtPlayerandComments">
+      <Box>
+      <Box>
+        <Tabs value={tabIndex} onChange={handleTabChange}>
+          <Tab label="Tab 1" />
+          <Tab label="Tab 2" />\
+        </Tabs>
+      </Box>
+      <Box sx={{ padding: 2 }}>
+        {tabIndex === 0 && (
+          <Box>
+            <Typography>The first tab</Typography>
+            <header className="YoutubePlayerTab">
+        Youtube Player:
         <YouTubePlayerExample />
+        {/* <Button onClick={prevClickHandler} variant="contained"><FastRewindIcon /></Button>
+        <Button onClick={pauseClickHandler} variant="contained"><PauseIcon /></Button>
+        <Button onClick={playClickHandler} variant="contained"><PlayArrowIcon /></Button>
+        <Button onClick={nextClickHandler} variant="contained"><FastForwardIcon /></Button> */}
+      </header>
+          </Box>
+        )}
+        {tabIndex === 1 && (
+          <Box>
+            <Typography>The Comments tab</Typography>
+            <Box>
+
+            <Paper style={{maxHeight: 400, overflow: 'auto'}}>
+              <List>
+              <ListItem>test</ListItem>
+              <ListItem>test</ListItem>
+              </List>
+            </Paper>
+            <TextField id="filled-basic" label="Enter Comment:" variant="filled" value={userComment}
+                        onChange={handleQueryChange}
+                        onKeyDown={(e)=>handleEnterKeyPress(e)} onSubmit={handleSubmit}/>
+            </Box>
+          </Box>
+        )}
+        
+      </Box>
+    </Box>
+    
+      
+    </div>
+    </div>
         </div>
 
-    </div>
+
+       
   
 </div>)
-    // return (
-        
-    //     <div id="playlist-selector">
-    //         <div id='youtube_tab'>
-    //             <h2>YouTube Playlist Example</h2>
-    //             <YouTubePlayerExample />
-    //         </div>
+    
             
             
 
-    //         <div id="list-selector-list">
-    //             {
-    //                 listCard
-    //             }
-    //             <MUIDeleteModal />
-    //         </div>
-    //         <div id="list-selector-heading">
-            
-    //         </div>
-            
-    //     </div>)
+    
 }
 
 export default AllListsScreen;
