@@ -325,10 +325,29 @@ function GlobalStoreContextProvider(props) {
         history.push('/')
     }
 
+    store.duplicateList = async function(id){
+        console.log("id for duplicate in store: ",id)
+        async function duplicateList1(id) {
+            let response = await api.getPlaylistById(id);
+            if (response.data.success) {
+                let playlist = response.data.playlist;
+                console.log(playlist);
+                console.log(playlist.name);
+                let newListName= (playlist.name + ' copy')
+                const responseCreateDupe = await api.createPlaylist(newListName, playlist.songs, auth.user.email);
+                console.log("responseCreateDupe response data: " + responseCreateDupe);
+                store.loadIdNamePairs();
+            }
+            
+        }
+        duplicateList1(id);
+    }
+
     // THIS FUNCTION CREATES A NEW LIST
     store.createNewList = async function () {
         let newListName = "Untitled" + store.newListCounter;
         const response = await api.createPlaylist(newListName, [], auth.user.email);
+        //need to check if list with same name already exists for this user email
         console.log("createNewList response: " + response);
         if (response.status === 201) {
             tps.clearAllTransactions();
@@ -478,7 +497,7 @@ function GlobalStoreContextProvider(props) {
 
     store.getPlaylistForPlayer1 = function (id) {
         async function asyncGetPlaylistForPlayer(id) {
-            let songsYtArray = [];
+            let songsYtArray = [[],[],[]];
             console.log('testing console log')
             let response = await api.getPlaylistForPlayer(id); 
             //the id is there, and response is undefined
@@ -489,13 +508,16 @@ function GlobalStoreContextProvider(props) {
                 
                 let i=0;
                 for(i;i<playlist.songs.length;i++) {
-                    songsYtArray.push(playlist.songs[i].youTubeId)
+                    songsYtArray[0].push(playlist.songs[i].youTubeId)
+                    songsYtArray[1].push(playlist.songs[i].title)
+                    songsYtArray[2].push(playlist.songs[i].artist)
                 }
                 console.log("songsYtArray: ",songsYtArray)
+                console.log("playlist line 495: ",playlist)
                 if(songsYtArray ){
                     storeReducer({
                         type: GlobalStoreActionType.SET_CURRENT_PLAYER_LIST,
-                        payload: songsYtArray
+                        payload: songsYtArray //songsYtArray or playlist
                     });
                     console.log("SET_CURRENT_PLAYER_LIST : ",songsYtArray)
                 }

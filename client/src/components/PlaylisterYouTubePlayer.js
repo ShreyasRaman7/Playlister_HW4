@@ -5,10 +5,22 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import FastForwardIcon from '@mui/icons-material/FastForward';
 import FastRewindIcon from '@mui/icons-material/FastRewind';
 import Button from '@mui/material/Button';
-import { useContext } from 'react'
+import { useContext, useState } from 'react';
 import { GlobalStoreContext } from '../store'
+import { Paper } from '@mui/material';
+import Box from '@mui/material/Box';
 
+
+// let currentSong = 0;
+// let artist1 ;
+// let title1;
+let currentSong_1=0
 export default function YouTubePlayerExample() {
+    const [title_state, setTitle_state] = useState('');
+let currentSong=0;
+let artist1=''
+let title1 = ""
+let artist2="testAdele"
     // THIS EXAMPLE DEMONSTRATES HOW TO DYNAMICALLY MAKE A
     // YOUTUBE PLAYER AND EMBED IT IN YOUR SITE. IT ALSO
     // DEMONSTRATES HOW TO IMPLEMENT A PLAYLIST THAT MOVES
@@ -20,17 +32,37 @@ export default function YouTubePlayerExample() {
         "8RbXIMZmVv8",
         "8UbNbor3OqQ"
     ];
-    let testPlaylist1=playlist
+    let titleArray=['Fast Train','Set the Controls for the Heart of the Sun','Astronomy Domine' ]
+    let artistArray=['Solomon Burke','Pink Floyd','Pink Floyd']
+    //let testPlaylist1=playlist
     //replace playlist with playlist passed by listcard in allListsScreen
 
     const { store } = useContext(GlobalStoreContext);
+    //playlist=store.currentPlayerList[0]
+    
     if(store && store.currentPlayerList){
-        playlist=store.currentPlayerList    
-        console.log("store.currentPlayerList : ",store.currentPlayerList )
+        //console.log("store.currentPlayerlist: ",store.currentPlayerList);
+        // for(i;i<store.currentPlayerList.songs.length;i++) {
+        //           songsYtArray.push(store.currentPlayerList.songs[i].youTubeId)
+        //       }
+        playlist=store.currentPlayerList[0]
+        titleArray=store.currentPlayerList[1]
+        artistArray =store.currentPlayerList[2]
+        console.log("line 41 : ",store.currentPlayerList)
+        console.log("line 42 : ",titleArray)
+        //console.log("line 29 store.currentPlayerList : ",store.currentPlayerList )
     }
-
+    console.log("line 31 playlist:",playlist)
+    //console.log("playlist.songs line 32",playlist.songs)
+    
+    
+    //  for(i;i<playlist.songs.length;i++) {
+    //      songsYtArray.push(playlist.songs[i].youTubeId)
+    //  }
+    //console.log("songsYtArray: ",songsYtArray)
+    //playlist=songsYtArray
     // THIS IS THE INDEX OF THE SONG CURRENTLY IN USE IN THE PLAYLIST
-    let currentSong = 0;
+    
 
     const playerOptions = {
         height: '390',
@@ -54,8 +86,27 @@ export default function YouTubePlayerExample() {
         currentSong++;
         currentSong = currentSong % playlist.length;
         let song = playlist[currentSong];
+        //let song = playlist[currentSong_state];
         myPlayer.loadVideoById(song);
         myPlayer.playVideo();
+        console.log("current song: ",currentSong)
+        console.log("current song artist: ",artistArray[currentSong])
+        artist1=artistArray[currentSong]
+        title1=titleArray[currentSong]
+        artist2="testBobMarley"
+        artist2=titleArray[currentSong]
+        console.log("artist2: ",artist2)
+
+        //setCurrentSong_state(currentSong_state+1)
+        //setTitle_state(titleArray[currentSong])
+        currentSong_1+=1
+        console.log('curr song_1->',currentSong_1)
+        
+        //console.log("test3 currentSong_state : ",currentSong_state)
+        
+        
+        
+        
 
     }
 
@@ -73,6 +124,8 @@ export default function YouTubePlayerExample() {
             let song = playlist[currentSong];
             myPlayer.loadVideoById(song);
             myPlayer.playVideo();
+            artist1=artistArray[currentSong]
+            title1=titleArray[currentSong]    
 
     }
 
@@ -80,7 +133,7 @@ export default function YouTubePlayerExample() {
         myPlayer =event.target
         loadAndPlayCurrentSong(event.target);
         event.target.playVideo();
-        console.log("event target, the player",event.target)
+        //console.log("event target, the player",event.target)
         
     }
 
@@ -107,7 +160,7 @@ export default function YouTubePlayerExample() {
     // VALUE TO REPRESENT THE TYPE OF STATE CHANGE. A playerStatus
     // VALUE OF 0 MEANS THE SONG PLAYING HAS ENDED.
     function onPlayerStateChange(playerStatus,player) {
-        console.log(player)
+        //console.log(player)
         // let playerStatus = event.data;
         // let player = event.target;
         if (playerStatus === -1) {
@@ -134,6 +187,7 @@ export default function YouTubePlayerExample() {
         }
     }
 
+    //console.log()
     return (
     <div>
     <YouTube
@@ -145,6 +199,17 @@ export default function YouTubePlayerExample() {
         <Button onClick={pauseClickHandler} variant="contained"><PauseIcon /></Button>
         <Button onClick={playClickHandler} variant="contained"><PlayArrowIcon /></Button>
         <Button onClick={nextClickHandler} variant="contained"><FastForwardIcon /></Button>
+
+        <Paper elevation={16}>
+        { title1&&<Box>{title1}</Box>  }
+        {currentSong_1}
+        {/* { titleArray&&<Box>{titleArray}</Box>  }
+        { artistArray&&<Box>{artistArray}</Box>  } */}
+        <span>by</span>
+        { artistArray&&<Box>{artist1}</Box>  }
+        { artistArray&&<Box>{artistArray[currentSong]}</Box>  }
+        {/* {currentSong_state} */}
+        </Paper>
     </div>
     
     )

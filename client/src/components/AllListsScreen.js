@@ -146,8 +146,8 @@ const AllListsScreen = () => {
       <Box>
       <Box>
         <Tabs value={tabIndex} onChange={handleTabChange}>
-          <Tab label="Tab 1" />
-          <Tab label="Tab 2" />\
+          <Tab label="Youtube Player" />
+          <Tab label="Comments Section" />\
         </Tabs>
       </Box>
       <Box sx={{ padding: 2 }}>

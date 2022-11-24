@@ -7,6 +7,7 @@ import AddIcon from '@mui/icons-material/Add';
 import Fab from '@mui/material/Fab'
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography'
+import DifferenceIcon from '@mui/icons-material/Difference';
 /*
     This React component lists all the top5 lists in the UI.
     
@@ -52,6 +53,7 @@ const HomeScreen = () => {
                         <MUIDeleteModal />
                     </div>
                     <div id="list-selector-heading">
+                    
                     <Fab 
                         color="primary" 
                         aria-label="add"

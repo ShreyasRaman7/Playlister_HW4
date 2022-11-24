@@ -8,6 +8,8 @@ import ListItem from '@mui/material/ListItem';
 import TextField from '@mui/material/TextField';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
+import DifferenceIcon from '@mui/icons-material/Difference';
+import Button from '@mui/material/Button';
 
 /*
     This is a card in our list of top 5 lists. It lets select
@@ -38,7 +40,7 @@ function ListCard(props) {
         }
     }
 
-    
+
 
     function handleToggleEdit(event) {
         event.stopPropagation();
@@ -71,24 +73,26 @@ function ListCard(props) {
         setText(event.target.value);
     }
 
-    // function handleLoadList(event, id) {
-    //     console.log("handleLoadList for " + id);
-    //     if (!event.target.disabled) {
-    //         let _id = event.target.id;
-    //         if (_id.indexOf('list-card-text-') >= 0)
-    //             _id = ("" + _id).substring("list-card-text-".length);
-
-    //         console.log("load " + event.target.id);
-
-    //         // CHANGE THE CURRENT LIST
-    //         store.setCurrentList(id);
-    //     }
-    // }
+    
 
     function handleGetPlaylistForPlayer(id){ //using to get playlist to play in player
         console.log("handleGetPlaylistForPlayer for id: " + id);
         store.getPlaylistForPlayer1(id);
         // console.log(store.getPlaylistForPlayer(id));
+    }
+
+    function duplOnClick(event,id){ //handler for duplicate playlist button clicked
+        event.stopPropagation();
+        console.log("entered duplOnClick")
+        let _id = event.target.id;
+        console.log("id: ",id);
+        store.duplicateList(id);
+    }
+
+    function likeList(event,id){
+        event.stopPropagation();
+        console.log('likeList entered')
+        store.likeList(id);
     }
 
     let selectClass = "unselected-list-card";
@@ -124,8 +128,21 @@ function ListCard(props) {
             }}
         >
             <Box sx={{ p: 1, flexGrow: 1 }}>{idNamePair.name}</Box>
-            
 
+            {props.canEdit &&
+                <Box><Button onClick={(event) => {
+                            likeList(event, idNamePair._id)
+                        }} variant="outlined" startIcon={< ThumbUpIcon />}>
+                </Button></Box>
+                }
+
+                {props.canEdit &&
+                <Box><Button onClick={(event) => {
+                            duplOnClick(event, idNamePair._id)
+                        }} variant="outlined" startIcon={<DifferenceIcon />}>
+                Dupl
+                </Button></Box>
+                }
             <Box sx={{ p: 1 }}>
                 
                 {props.canEdit && <IconButton onClick={handleToggleEdit} aria-label='edit'>
