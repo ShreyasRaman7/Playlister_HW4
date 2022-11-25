@@ -92,13 +92,17 @@ likePlaylist = (req, res) => {
             error: 'You must provide a body to update',
         })
     }
-    let list = Playlist.findOne({ _id: req.params.id })
-    console.log("test8: ",list)
     
     
-    let tempLikes=list.numLikes+1
-    Playlist.updateOne({ _id: req.params.id },{$inc: {'numLikes': 1 } }, (err, playlist) => { //increments numLikes by 1 each time its run
+    Playlist.find( {$and: [
+        {'likeUserEmails': req.body.emailUsers}]}   , (err, playlist) => { //increments numLikes by 1 each time its 
         console.log("playlist found: " + JSON.stringify(playlist));
+        // if(playlist=[]){
+        //     return res.status(404).json({
+        //         err,
+        //         message: 'Playlist not found!',
+        //     })
+        // }
         if (err) {
             return res.status(404).json({
                 err,
@@ -108,53 +112,72 @@ likePlaylist = (req, res) => {
         else{
             return res.status(200).json({
                 success: true,
+                successMessage: "success worked",
                 data: playlist
             })
         }
-
-        // DOES THIS LIST BELONG TO THIS USER?
-        // async function asyncFindUser(list) {
-        //     await User.findOne({ email: list.ownerEmail }, (err, user) => {
-        //         console.log("user._id: " + user._id);
-        //         console.log("req.userId: " + req.userId);
-        //         if (user._id == req.userId) {
-        //             console.log("correct user!");
-        //             console.log("req.body.name: " + req.body.name);
-
-        //             list.name = body.playlist.name;
-        //             list.songs = body.playlist.songs;
-        //             list.isPublished =body.playlist.isPublished;
-        //             list.publishedDate =body.playlist.publishedDate;
-        //             list.numLikes =body.playlist.numLikes;
-        //             list.numDislikes =body.playlist.numDislikes;
-        //             list.numListens =body.playlist.numListens;
-        //             list.comments =body.playlist.comments;
-        //             list
-        //                 .save()
-        //                 .then(() => {
-        //                     console.log("SUCCESS!!!");
-        //                     return res.status(200).json({
-        //                         success: true,
-        //                         id: list._id,
-        //                         message: 'Playlist updated!',
-        //                     })
-        //                 })
-        //                 .catch(error => {
-        //                     console.log("FAILURE: " + JSON.stringify(error));
-        //                     return res.status(404).json({
-        //                         error,
-        //                         message: 'Playlist not updated!',
-        //                     })
-        //                 })
-        //         }
-        //         else {
-        //             console.log("incorrect user!");
-        //             return res.status(400).json({ success: false, description: "authentication error" });
-        //         }
-        //     });
-        // }
-        // asyncFindUser(playlist);
     })
+    
+    
+    //let tempLikes=list.numLikes+1
+    // Playlist.updateOne({ _id: req.params.id },{$inc: {'numLikes': 1 } , $push:{'likeUserEmails':req.body.emailUsers}}, (err, playlist) => { //increments numLikes by 1 each time its run
+    //     console.log("playlist found: " + JSON.stringify(playlist));
+    //     if (err) {
+    //         return res.status(404).json({
+    //             err,
+    //             message: 'Playlist not found!',
+    //         })
+    //     }
+    //     else{
+    //         return res.status(200).json({
+    //             success: true,
+    //             data: playlist
+    //         })
+    //     }
+
+    //     // DOES THIS LIST BELONG TO THIS USER?
+    //     // async function asyncFindUser(list) {
+    //     //     await User.findOne({ email: list.ownerEmail }, (err, user) => {
+    //     //         console.log("user._id: " + user._id);
+    //     //         console.log("req.userId: " + req.userId);
+    //     //         if (user._id == req.userId) {
+    //     //             console.log("correct user!");
+    //     //             console.log("req.body.name: " + req.body.name);
+
+    //     //             list.name = body.playlist.name;
+    //     //             list.songs = body.playlist.songs;
+    //     //             list.isPublished =body.playlist.isPublished;
+    //     //             list.publishedDate =body.playlist.publishedDate;
+    //     //             list.numLikes =body.playlist.numLikes;
+    //     //             list.numDislikes =body.playlist.numDislikes;
+    //     //             list.numListens =body.playlist.numListens;
+    //     //             list.comments =body.playlist.comments;
+    //     //             list
+    //     //                 .save()
+    //     //                 .then(() => {
+    //     //                     console.log("SUCCESS!!!");
+    //     //                     return res.status(200).json({
+    //     //                         success: true,
+    //     //                         id: list._id,
+    //     //                         message: 'Playlist updated!',
+    //     //                     })
+    //     //                 })
+    //     //                 .catch(error => {
+    //     //                     console.log("FAILURE: " + JSON.stringify(error));
+    //     //                     return res.status(404).json({
+    //     //                         error,
+    //     //                         message: 'Playlist not updated!',
+    //     //                     })
+    //     //                 })
+    //     //         }
+    //     //         else {
+    //     //             console.log("incorrect user!");
+    //     //             return res.status(400).json({ success: false, description: "authentication error" });
+    //     //         }
+    //     //     });
+    //     // }
+    //     // asyncFindUser(playlist);
+    // })
 
    
 
