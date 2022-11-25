@@ -19,6 +19,7 @@ import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import logo from './playlisterLogo.png';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import TextField from '@mui/material/TextField';
+import SortMenu from "./SortMenu.js";
 
 export default function SubAppBanner2() {
     const { auth } = useContext(AuthContext);
@@ -142,7 +143,7 @@ export default function SubAppBanner2() {
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static" style={{ background: '#D7ECD9' }}>
+            <AppBar position="static" style={{ background: 'white' }}>
                 <Toolbar>
                     <Typography                        
                         variant="h4"
@@ -174,6 +175,8 @@ export default function SubAppBanner2() {
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                         
                     </Box>
+                    <Box sx={{ backgroundColor: 'primary.dark'}}>  <SortMenu /> </Box>
+                    
                 </Toolbar>
             </AppBar>
             {
