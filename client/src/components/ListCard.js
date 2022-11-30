@@ -18,12 +18,23 @@ import Button from '@mui/material/Button';
     
     @author McKilla Gorilla
 */
+const styleObj3 = {
+    fontSize: 14,
+    color: "#4a54f1",
+    textAlign: "center",
+    paddingTop: "100px",
+}
 function ListCard(props) {
     const { store } = useContext(GlobalStoreContext);
     const [editActive, setEditActive] = useState(false);
     const [text, setText] = useState("");
     const { idNamePair, selected } = props;
 
+    //console.log(idNamePair)
+
+    
+        
+      
     //console.log(props)
 
     function handleLoadList(event, id) {
@@ -77,7 +88,7 @@ function ListCard(props) {
 
     function handleGetPlaylistForPlayer(id){ //using to get playlist to play in player
         console.log("handleGetPlaylistForPlayer for id: " + id);
-        store.getPlaylistForPlayer1(id);
+        store.getPlaylistForPlayer1(id); //keeps track of active player updates playlist id, accessible elsewhere
         // console.log(store.getPlaylistForPlayer(id));
     }
 
@@ -126,6 +137,7 @@ function ListCard(props) {
                 }
                 
             }}
+            
         >
             <Box sx={{ p: 1, flexGrow: 1 }}>{idNamePair.name}</Box>
 
@@ -150,6 +162,7 @@ function ListCard(props) {
                 </IconButton>}
                 
             </Box>
+            <Box> {} </Box>
             <Box sx={{ p: 1 }}>
             {props.canEdit &&
                 <IconButton onClick={(event) => {
@@ -160,6 +173,18 @@ function ListCard(props) {
             }
             </Box>
 
+            
+            {/* <p style = {styleObj3}>test</p> */}
+
+            <p style = {styleObj3}><Box> By:{idNamePair.ownerEmail} </Box> 
+            <Box> <span fontSize='10'> </span> numLikes:{idNamePair.numLikes} </Box>
+            <Box> numDislikes:{idNamePair.numDislikes} </Box>
+            <Box>  numComments:{idNamePair.comments ? idNamePair.comments.length:0} </Box>
+            
+            <Box> isPublished:{String(idNamePair.isPublished)} </Box>
+            {/* <Box> datePublished:{idNamePair.datePublished} </Box> */}
+            <Box>Published:{(new Date(idNamePair.datePublished)).toDateString()}</Box>
+            </p>
             
             
             

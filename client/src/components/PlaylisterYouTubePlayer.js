@@ -17,7 +17,8 @@ import Box from '@mui/material/Box';
 let currentSong_1=0
 export default function YouTubePlayerExample() {
     const [title_state, setTitle_state] = useState('');
-let currentSong=0;
+    const [currentSong, setCurrentSong] = useState(0);
+//let currentSong=0;
 let artist1=''
 let title1 = ""
 let artist2="testAdele"
@@ -27,6 +28,7 @@ let artist2="testAdele"
     // FROM ONE SONG TO THE NEXT
     let myPlayer= null
     // THIS HAS THE YOUTUBE IDS FOR THE SONGS IN OUR PLAYLIST
+
     let playlist = [
         "mqmxkGjow1A",
         "8RbXIMZmVv8",
@@ -34,6 +36,8 @@ let artist2="testAdele"
     ];
     let titleArray=['Fast Train','Set the Controls for the Heart of the Sun','Astronomy Domine' ]
     let artistArray=['Solomon Burke','Pink Floyd','Pink Floyd']
+
+    
     //let testPlaylist1=playlist
     //replace playlist with playlist passed by listcard in allListsScreen
 
@@ -83,8 +87,9 @@ let artist2="testAdele"
 
     // THIS FUNCTION INCREMENTS THE PLAYLIST SONG TO THE NEXT ONE
     function incSong() {
-        currentSong++;
-        currentSong = currentSong % playlist.length;
+        //currentSong++;
+        //currentSong = currentSong % playlist.length;
+        setCurrentSong((currentSong+1)%playlist.length);
         let song = playlist[currentSong];
         //let song = playlist[currentSong_state];
         myPlayer.loadVideoById(song);
@@ -114,11 +119,13 @@ let artist2="testAdele"
         
         if(currentSong!=0){
             console.log("current song: ",currentSong)
-            currentSong-=1;
+           // currentSong-=1; 
+            setCurrentSong(currentSong-1)
             
         }
         else{
             currentSong=playlist.length-1
+            setCurrentSong(playlist.length-1)
         }
             //currentSong = currentSong % playlist.length;
             let song = playlist[currentSong];
@@ -201,12 +208,13 @@ let artist2="testAdele"
         <Button onClick={nextClickHandler} variant="contained"><FastForwardIcon /></Button>
 
         <Paper elevation={16}>
-        { title1&&<Box>{title1}</Box>  }
-        {currentSong_1}
+        { titleArray&&<Box>{titleArray[currentSong]}</Box>  }
+        {/* {currentSong_1} */}
         {/* { titleArray&&<Box>{titleArray}</Box>  }
         { artistArray&&<Box>{artistArray}</Box>  } */}
+        {/* {artistArray} */}
         <span>by</span>
-        { artistArray&&<Box>{artist1}</Box>  }
+        {/* { artistArray&&<Box>{artist1}</Box>  } */}
         { artistArray&&<Box>{artistArray[currentSong]}</Box>  }
         {/* {currentSong_state} */}
         </Paper>

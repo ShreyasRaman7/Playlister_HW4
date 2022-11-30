@@ -34,7 +34,6 @@ import TextField from '@mui/material/TextField';
 */
 const AllListsScreen = () => {
     const { store } = useContext(GlobalStoreContext);
-
     useEffect(() => {
          store.loadPublishedPlaylists(); //need to uncomment or replace later for working
     }, []);
@@ -73,7 +72,11 @@ const AllListsScreen = () => {
         //console.log("tempQuery: ", tempUserComment)
         setUserComment('');
         console.log("tempQuery: ", tempUserComment)
+
         //setTempQuery(tempQuery);
+       
+        console.log("line78 comment: ",userComment,store.currentPlayerList[3])
+        store.commitUserComment(userComment, store.currentPlayerList[3] ) //passes current playlist id
 
 
     }
@@ -88,6 +91,8 @@ const AllListsScreen = () => {
           }
         
         //to submit the query
+        // console.log("line92: ",userComment,store.currentPlayerList[3])
+        // store.setUserComment(userComment, store.currentPlayerList[3] ) //passes current playlist id
         
     }
     
@@ -103,7 +108,11 @@ const AllListsScreen = () => {
     setUserComment(event.target.value);
   };
 
-  const handleSubmit = () => {console.log('submitted comment')}
+  const handleSubmit = () => {
+    
+    console.log('submitted comment')
+
+  }
   
   const [tabIndex, setTabIndex] = useState(0);
 
@@ -133,7 +142,7 @@ const AllListsScreen = () => {
     
     <div class="grid-child-purple">
         {/* Grid Column 1 */}
-        <span>AllListsScreen -user is like a guest</span>
+        <span>AllListsScreen -user is like a guest, click on a playlist first to load it</span>
         <div id="list-selector-list">
             {listCard}
             <MUIDeleteModal />
@@ -164,6 +173,7 @@ const AllListsScreen = () => {
       </header>
           </Box>
         )}
+        
         {tabIndex === 1 && (
           <Box>
             <Typography>The Comments tab</Typography>
@@ -171,13 +181,15 @@ const AllListsScreen = () => {
 
             <Paper style={{maxHeight: 400, overflow: 'auto'}}>
               <List>
-              <ListItem>test</ListItem>
-              <ListItem>test</ListItem>
+              {/* <ListItem>test</ListItem>
+              <ListItem>test</ListItem> */}
               </List>
             </Paper>
+            
             <TextField id="filled-basic" label="Enter Comment:" variant="filled" value={userComment}
                         onChange={handleQueryChange}
                         onKeyDown={(e)=>handleEnterKeyPress(e)} onSubmit={handleSubmit}/>
+            
             </Box>
           </Box>
         )}

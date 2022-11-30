@@ -325,6 +325,14 @@ function GlobalStoreContextProvider(props) {
         history.push('/')
     }
 
+    store.commitUserComment = async function(comment,id){
+        console.log(auth.user.email)
+        console.log(id)
+        console.log(comment)
+        
+        //shows the right email, but only if signed in, as only signed in users can comment
+    }
+
     store.duplicateList = async function(id){
         console.log("id for duplicate in store: ",id)
         async function duplicateList1(id) {
@@ -497,7 +505,7 @@ function GlobalStoreContextProvider(props) {
 
     store.getPlaylistForPlayer1 = function (id) {
         async function asyncGetPlaylistForPlayer(id) {
-            let songsYtArray = [[],[],[]];
+            let songsYtArray = [[],[],[],[]];
             console.log('testing console log')
             let response = await api.getPlaylistForPlayer(id); 
             //the id is there, and response is undefined
@@ -511,7 +519,10 @@ function GlobalStoreContextProvider(props) {
                     songsYtArray[0].push(playlist.songs[i].youTubeId)
                     songsYtArray[1].push(playlist.songs[i].title)
                     songsYtArray[2].push(playlist.songs[i].artist)
+                    
                 }
+                console.log("id: ",id)
+                songsYtArray[3].push(id)
                 console.log("songsYtArray: ",songsYtArray)
                 console.log("playlist line 495: ",playlist)
                 if(songsYtArray ){
