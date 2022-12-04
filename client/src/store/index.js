@@ -17,10 +17,14 @@ import AuthContext from '../auth'
 // THIS IS THE CONTEXT WE'LL USE TO SHARE OUR STORE
 export const GlobalStoreContext = createContext({});
 console.log("create GlobalStoreContext");
-
+let dupeCounter =0
 // THESE ARE ALL THE TYPES OF UPDATES TO OUR GLOBAL
 // DATA STORE STATE THAT CAN BE PROCESSED
 export const GlobalStoreActionType = {
+    LIKE_LIST: "LIKE_LIST",
+    DISLIKE_LIST: "DISLIKE_LIST",
+    COMMENT_LIST: "COMMENT_LIST",
+    LISTEN_LIST: "LISTEN_LIST",
     CHANGE_LIST_NAME: "CHANGE_LIST_NAME",
     CLOSE_CURRENT_LIST: "CLOSE_CURRENT_LIST",
     CREATE_NEW_LIST: "CREATE_NEW_LIST",
@@ -53,14 +57,14 @@ function GlobalStoreContextProvider(props) {
     const [store, setStore] = useState({
         currentModal : CurrentModal.NONE,
         idNamePairs: [],
-        currentList: null,
+        currentList: [],
         currentSongIndex : -1,
         currentSong : null,
         newListCounter: 0,
         listNameActive: false,
         listIdMarkedForDeletion: null,
         listMarkedForDeletion: null,
-        currentPlayerList:['mqmxkGjow1A']
+        currentPlayerList:[['mqmxkGjow1A'],[],[],[],[],[]]
     });
     const history = useHistory();
 
@@ -75,6 +79,63 @@ function GlobalStoreContextProvider(props) {
     const storeReducer = (action) => {
         const { type, payload } = action;
         switch (type) {
+
+            case GlobalStoreActionType.LIKE_LIST: {
+                return setStore({
+                    currentModal : CurrentModal.NONE,
+                    idNamePairs: payload.idNamePairs,
+                    currentList: payload.playlist,
+                    currentSongIndex: -1,
+                    currentSong: null,
+                    newListCounter: store.newListCounter,
+                    listNameActive: false,
+                    listIdMarkedForDeletion: null,
+                    listMarkedForDeletion: null
+                });
+            }
+
+            case GlobalStoreActionType.DISLIKE_LIST: {
+                return setStore({
+                    currentModal : CurrentModal.NONE,
+                    idNamePairs: payload.idNamePairs,
+                    currentList: payload.playlist,
+                    currentSongIndex: -1,
+                    currentSong: null,
+                    newListCounter: store.newListCounter,
+                    listNameActive: false,
+                    listIdMarkedForDeletion: null,
+                    listMarkedForDeletion: null
+                });
+            }
+
+            case GlobalStoreActionType.COMMENT_LIST: {
+                return setStore({
+                    currentModal : CurrentModal.NONE,
+                    idNamePairs: payload.idNamePairs,
+                    currentList: payload.playlist,
+                    currentSongIndex: -1,
+                    currentSong: null,
+                    newListCounter: store.newListCounter,
+                    listNameActive: false,
+                    listIdMarkedForDeletion: null,
+                    listMarkedForDeletion: null
+                });
+            }
+
+            case GlobalStoreActionType.LISTEN_LIST: {
+                return setStore({
+                    currentModal : CurrentModal.NONE,
+                    idNamePairs: payload.idNamePairs,
+                    currentList: payload.playlist,
+                    currentSongIndex: -1,
+                    currentSong: null,
+                    newListCounter: store.newListCounter,
+                    listNameActive: false,
+                    listIdMarkedForDeletion: null,
+                    listMarkedForDeletion: null
+                });
+            }
+
             // LIST UPDATE OF ITS NAME
             case GlobalStoreActionType.CHANGE_LIST_NAME: {
                 return setStore({
@@ -265,6 +326,9 @@ function GlobalStoreContextProvider(props) {
     // DRIVE THE STATE OF THE APPLICATION. WE'LL CALL THESE IN 
     // RESPONSE TO EVENTS INSIDE OUR COMPONENTS.
 
+
+    
+
     // THIS FUNCTION PROCESSES CHANGING A LIST NAME
     store.changeListName = function (id, newName) {
         // GET THE LIST
@@ -299,6 +363,134 @@ function GlobalStoreContextProvider(props) {
     }
 
 
+    store.dislikeList = function (id) {
+        // GET THE LIST
+        async function asyncChangeListName(id) {
+            let response = await api.getPlaylistById(id);
+            if (response.data.success) {
+                let playlist = response.data.playlist;
+                //playlist.numDislikes +=1
+                async function updateList(playlist) {
+                    response = await api.updatePlaylistById(playlist._id, playlist);
+                    if (response.data.success) {
+                        async function getListPairs(playlist) {
+                            response = await api.getPlaylistPairs();
+                            if (response.data.success) {
+                                let pairsArray = response.data.idNamePairs;
+                                storeReducer({
+                                    type: GlobalStoreActionType.CHANGE_LIST_NAME,
+                                    payload: {
+                                        idNamePairs: pairsArray,
+                                        playlist: null
+                                    }
+                                });
+                            }
+                        }
+                        getListPairs(playlist);
+                    }
+                }
+                updateList(playlist);
+            }
+        }
+        asyncChangeListName(id);
+    }
+
+    store.likeList = async function(id){
+        let user = auth.user.email;
+        console.log("user email" + user);
+        store.setCurrentList1(id)
+        let response = await api.likePlaylist(id,auth.user.email);
+        if (response.data.success) {
+            let playlist0= response.data;
+            store.currentList.numLikes +=1
+            console.log('store7',store.currentList);
+            console.log('store7',store.currentList.numLikes);
+            // console.log('successLike',response)
+            storeReducer({
+                type: GlobalStoreActionType.UPDATE_LIST,
+                payload: store.currentList
+            });
+            store.updateCurrentList()
+            //history.push("/");
+        }
+
+    }
+    // store.likeList = function (id) {
+    //     console.log('store.currentList1 passed-id:',id)
+        
+    //     store.setCurrentList1(id) //,its set current list that takes us to new page
+    //     //store.getPlaylistForPlayer(id);
+    //     console.log('store.currentList1',store.currentList);
+    //     //console.log('store.currentList1 test');
+    //     console.log('store.currentList1.numLikes',store.currentList.numLikes);
+    //     if (store.currentList) {
+    //         async function asyncUpdateCurrentList() {
+    //             store.currentList.numLikes = store.currentList.numLikes + 1;
+    //             console.log('store.currentList1.numLikes',store.currentList.numLikes);
+    //             const response = await api.updatePlaylistById(
+    //                 store.currentList._id,
+    //                 store.currentList
+    //             );
+    //             if (response.data.success) {
+    //                 console.log('like-counter-'+store.currentList._id);
+    //                 storeReducer({
+    //                     type: GlobalStoreActionType.LIKE_LIST,
+    //                     payload: { playlist: store.currentList}
+    //                 });
+    //                 //document.getElementById('like-counter-'+store.playerList._id).innerHTML = store.playerList.likes
+    //                 //history.push("/");
+    //             }
+    //         }
+    //         asyncUpdateCurrentList()
+            
+    //     }
+    // };
+
+    store.sortByName = async function () {
+        store.idNamePairs.sort(function(a, b){
+            
+            if( a.name.toLowerCase() < b.name.toLowerCase()) 
+            { 
+                return  -1; //this is the case of a
+             }
+            if(a.name.toLowerCase > b.name.toLowerCase) 
+            { 
+                return 1; 
+            }
+            return 0;
+        } ); 
+        history.push('/');
+    }
+
+    store.sortByListens = async function () {
+        store.idNamePairs.sort(function(a, b){
+            return b.listens - a.listens;
+        })
+        history.push('/');
+    }
+    store.sortByLikes = async function () {
+        store.idNamePairs.sort(function(a, b){
+            return b.likes - a.likes;
+        })
+        history.push('/allLists');
+    }
+    store.sortByDislikes = async function () {
+        store.idNamePairs.sort(function(a, b){
+            return b.dislikes - a.dislikes;
+        })
+        history.push('/');
+    }
+    store.sortByDate = async function () {
+        store.idNamePairs.sort(function(a,b) {
+            if (!a.published) return 1;
+            if (!b.published) return -1;
+            return new Date(b.date) - new Date(a.date);
+        })
+        history.push('/')
+    }
+
+
+
     store.publishPlaylist = function (){
         store.currentList.isPublished = true
         console.log("store.currentList in store.publishPlaylist: ",store.currentList)
@@ -310,6 +502,7 @@ function GlobalStoreContextProvider(props) {
             }
         });
         store.updateCurrentList()
+        //history.push('/')
 
     }
 
@@ -326,6 +519,8 @@ function GlobalStoreContextProvider(props) {
     }
 
     store.commitUserComment = async function(comment,id){
+        console.log("test")
+        console.log("commitUserComment",comment)
         console.log(auth.user.email)
         console.log(id)
         console.log(comment)
@@ -333,6 +528,7 @@ function GlobalStoreContextProvider(props) {
         //shows the right email, but only if signed in, as only signed in users can comment
     }
 
+    
     store.duplicateList = async function(id){
         console.log("id for duplicate in store: ",id)
         async function duplicateList1(id) {
@@ -341,7 +537,8 @@ function GlobalStoreContextProvider(props) {
                 let playlist = response.data.playlist;
                 console.log(playlist);
                 console.log(playlist.name);
-                let newListName= (playlist.name + ' copy')
+                dupeCounter +=1
+                let newListName= (playlist.name + ' copy'+dupeCounter)
                 const responseCreateDupe = await api.createPlaylist(newListName, playlist.songs, auth.user.email);
                 console.log("responseCreateDupe response data: " + responseCreateDupe);
                 store.loadIdNamePairs();
@@ -503,9 +700,30 @@ function GlobalStoreContextProvider(props) {
         asyncSetCurrentList(id);
     }
 
+    store.setCurrentList1 = function (id) {
+        async function asyncSetCurrentList(id) {
+            let response = await api.getPlaylistById(id);
+            if (response.data.success) {
+                let playlist = response.data.playlist;
+
+                response = await api.updatePlaylistById(playlist._id, playlist);
+                if (response.data.success) {
+                    tps.clearAllTransactions();
+                    storeReducer({
+                        type: GlobalStoreActionType.SET_CURRENT_LIST,
+                        payload: playlist
+                    });
+                    
+                    //history.push("/playlist/" + playlist._id);
+                }
+            }
+        }
+        asyncSetCurrentList(id);
+    }
+
     store.getPlaylistForPlayer1 = function (id) {
         async function asyncGetPlaylistForPlayer(id) {
-            let songsYtArray = [[],[],[],[]];
+            let songsYtArray = [[],[],[],[],[]];
             console.log('testing console log')
             let response = await api.getPlaylistForPlayer(id); 
             //the id is there, and response is undefined
@@ -515,6 +733,7 @@ function GlobalStoreContextProvider(props) {
                 console.log("Playlist Songs: ", playlist.songs);
                 
                 let i=0;
+                songsYtArray[4] =(playlist)
                 for(i;i<playlist.songs.length;i++) {
                     songsYtArray[0].push(playlist.songs[i].youTubeId)
                     songsYtArray[1].push(playlist.songs[i].title)

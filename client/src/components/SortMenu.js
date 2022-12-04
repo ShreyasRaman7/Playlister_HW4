@@ -4,14 +4,18 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-
+import { useContext, useState } from 'react';
+import { GlobalStoreContext } from '../store'
 const options = [
-  '',  
-  'Likes',
-  'Dislikes',
-  'Date Published',
-  'Listens',
+  '', 
+  'Name (A-Z)', 
+  'Publish Date (Newest)',
+  'Listens (High-Low)',
+  'Likes (High-Low)',
+  'Dislikes (High-Low)',
 ];
+
+
 
 export default function SimpleListMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -20,9 +24,74 @@ export default function SimpleListMenu() {
   const handleClickListItem = (event) => {
     setAnchorEl(event.currentTarget);
   };
+  const { store } = useContext(GlobalStoreContext);
+
+  const handleSortByName_menu = () => {
+    //store.handleSortByName();
+    console.log("in handle sort by name");
+    setAnchorEl(null);
+    store.sortByName();
+  }
+
+  const handleSortByDate_menu = () => {
+    //store.handleSortByName();
+    console.log("in handle sort by name");
+    setAnchorEl(null);
+    store.sortByDate();
+  }
+
+  const handleSortByListens_menu = () => {
+    //store.handleSortByName();
+    console.log("in handle sort by name");
+    setAnchorEl(null);
+    store.sortByListens();
+  }
+
+  const handleSortByLikes_menu = () => {
+    //store.handleSortByName();
+    console.log("in handle sort by name");
+    setAnchorEl(null);
+    store.sortByLikes();
+  }
+
+  const handleSortByDislikes_menu = () => {
+    //store.handleSortByName();
+    console.log("in handle sort by name");
+    setAnchorEl(null);
+    store.sortByDislikes();
+  }
 
   const handleMenuItemClick = (event, index) => {
     setSelectedIndex(index);
+    console.log("selectedIndex: ", index);
+    console.log("sort by case",options[index]);
+    switch(index) {
+      case 1:
+        // 'Name (A-Z)', 
+        console.log("entered name a-z case");
+        handleSortByName_menu();
+        
+        break;
+      case 2:
+        // Publish Date (Newest)
+        handleSortByDate_menu();
+        break;
+      case 3:
+        // Listens (High-Low)
+        handleSortByListens_menu();
+        break;
+      case 4:
+        // Likes (High-Low)
+        handleSortByLikes_menu();
+        break;
+      case 5:
+        // Dislikes (High-Low)
+        handleSortByDislikes_menu();
+        break;
+      default:
+        // code block
+    }
+
     setAnchorEl(null);
   };
 

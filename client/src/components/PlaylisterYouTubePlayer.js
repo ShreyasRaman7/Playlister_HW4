@@ -36,7 +36,7 @@ let artist2="testAdele"
     ];
     let titleArray=['Fast Train','Set the Controls for the Heart of the Sun','Astronomy Domine' ]
     let artistArray=['Solomon Burke','Pink Floyd','Pink Floyd']
-
+    let origListArray=null
     
     //let testPlaylist1=playlist
     //replace playlist with playlist passed by listcard in allListsScreen
@@ -52,6 +52,7 @@ let artist2="testAdele"
         playlist=store.currentPlayerList[0]
         titleArray=store.currentPlayerList[1]
         artistArray =store.currentPlayerList[2]
+        origListArray = store.currentPlayerList[4] //store.currentPlayerlist[4] contains the original playlist with songs field and such
         console.log("line 41 : ",store.currentPlayerList)
         console.log("line 42 : ",titleArray)
         //console.log("line 29 store.currentPlayerList : ",store.currentPlayerList )
@@ -208,14 +209,17 @@ let artist2="testAdele"
         <Button onClick={nextClickHandler} variant="contained"><FastForwardIcon /></Button>
 
         <Paper elevation={16}>
-        { titleArray&&<Box>{titleArray[currentSong]}</Box>  }
+        {  titleArray&&<Box> <h4> {titleArray[currentSong]} </h4> </Box>  }
         {/* {currentSong_1} */}
         {/* { titleArray&&<Box>{titleArray}</Box>  }
         { artistArray&&<Box>{artistArray}</Box>  } */}
         {/* {artistArray} */}
         <span>by</span>
         {/* { artistArray&&<Box>{artist1}</Box>  } */}
-        { artistArray&&<Box>{artistArray[currentSong]}</Box>  }
+        { artistArray&&<Box> <h4>{artistArray[currentSong]} </h4>  </Box>  }
+        {/* {console.log("origListArray: ",origListArray.name)} */}
+        <Box> <> Playlist: <b>{origListArray && origListArray.name  }</b> </> </Box>
+        <Box> <> Song # <b> {currentSong && currentSong  } </b> </> </Box>
         {/* {currentSong_state} */}
         </Paper>
     </div>

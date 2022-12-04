@@ -30,6 +30,13 @@ export const createPlaylist = (newListName, newSongs, userEmail) => {
         ownerEmail: userEmail
     })
 }
+//export const likePlaylist = (id) =>api.put("/likes/", {id})
+export const likePlaylist = (id, user) => {
+    return api.put(`/likes/${id}`, {
+        // SPECIFY THE PAYLOAD
+        user : user
+    })
+}
 export const deletePlaylistById = (id) => api.delete(`/playlist/${id}`)
 export const getPlaylistById = (id) => api.get(`/playlist/${id}`)
 export const getPlaylistPairs = () => api.get(`/playlistpairs/`)
@@ -43,6 +50,9 @@ export const updatePlaylistById = (id, playlist) => {
 }
 
 const apis = {
+
+
+    likePlaylist,
     createPlaylist,
     deletePlaylistById,
     getPlaylistById,
