@@ -115,6 +115,7 @@ export default function SubAppBanner2() {
         setQuery('');
         console.log("tempQuery: ", tempQuery)
         //setTempQuery(tempQuery);
+        store.searchHandler(tempQuery)
 
         
 

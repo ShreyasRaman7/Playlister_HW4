@@ -490,6 +490,31 @@ function GlobalStoreContextProvider(props) {
         history.push('/allLists');
     }
 
+    store.searchHandler = async function (query) {
+        console.log('entered store.searchHandler')
+        console.log('store.searchHandler query:',query)
+       
+        let searchFilter = function(idNamePair)  {
+            let name = idNamePair.name.toLowerCase();
+            let search = query.toLowerCase();
+            return name.includes(search);
+        }
+        
+        if (query != '') {
+            let response = await api.getPlaylistPairs();
+            if (response.data.success) {
+                let pairsArray = response.data.idNamePairs;
+                store.idNamePairs = pairsArray.filter(searchFilter);
+                console.log(store.idNamePairs);
+            }
+
+        }
+        else {
+            store.loadIdNamePairs();
+        }
+        history.push('/allLists')
+    }
+
 
 
     store.publishPlaylist = function (){
