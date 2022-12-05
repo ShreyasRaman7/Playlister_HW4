@@ -164,7 +164,7 @@ export default function SubAppBanner2() {
                         color="warning"
                         focused 
                         id="outlined-name"
-                        label="search"
+                        label=""
                         value={query}
                         onChange={handleSearchChange}
                         onKeyDown={(e)=>handleEnterKeyPress(e)}
