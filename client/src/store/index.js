@@ -519,11 +519,31 @@ function GlobalStoreContextProvider(props) {
     }
 
     store.commitUserComment = async function(comment,id){
-        console.log("test")
-        console.log("commitUserComment",comment)
-        console.log(auth.user.email)
-        console.log(id)
-        console.log(comment)
+        //console.log("test")
+        console.log("commitUserComment->",comment)
+        //console.log(auth.user.email)
+        //console.log(id)
+        //console.log(comment)
+        //store.currentList =['test']
+        //store.setCurrentList1(id)
+        //console.log('store current list: ',store.currentList)
+        store.setCurrentList1(id)
+        store.getPlaylistForPlayer1(id)
+        console.log("store.currentList - index 4 contains actual playlist",store.currentList[4])
+        store.currentList[4].comments.push(comment)
+        console.log("store.currentList after push - index 4 contains actual playlist",store.currentList[4])
+
+        let newCommentList=store.currentList[4]
+        
+        storeReducer({
+            type: GlobalStoreActionType.COMMENT_LIST,
+            payload: newCommentList
+        });
+
+
+        //tps.clearAllTransactions();
+        //console.log(store.canUndo())
+        //history.push('/')
         
         //shows the right email, but only if signed in, as only signed in users can comment
     }

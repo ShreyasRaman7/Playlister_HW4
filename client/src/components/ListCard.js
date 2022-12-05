@@ -1,7 +1,4 @@
 import { useContext, useState } from 'react'
-
-import * as React from 'react';
-import AuthContext from '../auth';
 import { GlobalStoreContext } from '../store'
 import Box from '@mui/material/Box';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -13,6 +10,7 @@ import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import DifferenceIcon from '@mui/icons-material/Difference';
 import Button from '@mui/material/Button';
+import AuthContext from '../auth';
 import InsertCommentIcon from '@mui/icons-material/InsertComment';
 import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
 import UnpublishedIcon from '@mui/icons-material/Unpublished';
@@ -28,7 +26,10 @@ import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import SongCard from './SongCard.js'
 import HearingIcon from '@mui/icons-material/Hearing';
+import List from '@mui/material/List';
 
+import * as React from 'react';
+import WorkspaceScreen from './WorkspaceScreen';
 /*
     This is a card in our list of top 5 lists. It lets select
     a list for editing and it has controls for changing its 
@@ -36,6 +37,13 @@ import HearingIcon from '@mui/icons-material/Hearing';
     
     @author McKilla Gorilla
 */
+const styleObj3 = {
+    fontSize: 14,
+    color: "#4a54f1",
+    textAlign: "center",
+    paddingTop: "100px",
+}
+
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -48,43 +56,45 @@ const ExpandMore = styled((props) => {
     }),
   }));
 
-  
-  
 
-const styleObj3 = {
-    fontSize: 14,
-    color: "#4a54f1",
-    textAlign: "center",
-    paddingTop: "100px",
-}
+
+
+
 function ListCard(props) {
-
-    const { auth } = useContext(AuthContext);
-
-    const [expanded, setExpanded] = React.useState(false);
-
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-    console.log("id for expand: ",idNamePair._id);
-    console.log("store.currentList for expand: ",store.currentList);
-    console.log('idNamePair._id: ',idNamePair._id);
-    //store.getPlaylistForPlayer(idNamePair._id);
-    console.log("store.currentList Line 69:",store.currentList)
-    
-  };
-
     const { store } = useContext(GlobalStoreContext);
+    const { auth } = useContext(AuthContext);
     const [editActive, setEditActive] = useState(false);
     const [text, setText] = useState("");
     const { idNamePair, selected } = props;
+    const [expanded, setExpanded] = React.useState(false);
 
-    // let tempExpandList=idNamePair.songs
-    // const tempExpandList2= []
-    // tempExpandList.forEach(element => {
-    //     //console.log("->",element.title, " by ",element.artist);
-    //     //tempExpandList2.push(("->",element.title, " by ",element.artist))
-    // })
-    //console.log("line 77:",tempExpandList2)
+    const handleExpandClick = () => {
+      setExpanded(!expanded);
+      console.log("id for expand: ",idNamePair._id);
+      console.log("store.currentList for expand: ",store.currentList);
+      console.log('idNamePair._id: ',idNamePair._id);
+      //store.getPlaylistForPlayer(idNamePair._id);
+      console.log("store.currentList Line 69:",store.currentList)
+  
+    };
+
+
+const ExpandMore = styled((props) => {
+    const { expand, ...other } = props;
+    return <IconButton {...other} />;
+  })(({ theme, expand }) => ({
+    transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
+    marginLeft: 'auto',
+    transition: theme.transitions.create('transform', {
+      duration: theme.transitions.duration.shortest,
+    }),
+  }));
+
+
+
+
+
+    //console.log(idNamePair)
 
     
         
@@ -105,8 +115,7 @@ function ListCard(props) {
         }
     }
 
-    
-    
+
 
     function handleToggleEdit(event) {
         event.stopPropagation();
@@ -158,7 +167,6 @@ function ListCard(props) {
     function likeList(event,id){
         event.stopPropagation();
         console.log('likeList entered')
-        //store.setCurrentList(id)
         store.likeList(id);
     }
 
@@ -179,53 +187,42 @@ function ListCard(props) {
             style={{ width: '100%', fontSize: '20pt' }}
             button
             onClick={(event) => {
-                // store.setCurrentList(idNamePair._id)
-                // store.currentList.numListens +=1
-                // console.log("test9--->store.currentList NumListens",store.currentList.numListens)
                 if(!props.canEdit){
-                    console.log("test9--->(!props.canEdit): user not signed in, will play playlist");
-                    console.log('test9--->now sending playlist of youtube ids to player');
+                    console.log("(!props.canEdit): user not signed in, will play playlist");
+                    console.log('now sending playlist of youtube ids to player');
                     handleGetPlaylistForPlayer(idNamePair._id);
-                    store.setCurrentList1(idNamePair._id)
-                    store.currentList.numListens +=1
-                    //store
-                    console.log('test9---> numListens',store.currentList.numListens );
-                    event.stopPropagation(); //i added this
-                    store.getPlaylistForPlayer(idNamePair._id);
+                    //store.getPlaylistForPlayer();
 
 
                 }
                 else{
-                    console.log("test9--->(props.canEdit): user is signed in, will play playlist");
-                    store.getPlaylistForPlayer(idNamePair._id);
-                    //handleLoadList(event, idNamePair._id) 
-                    // ^^^ we should probably comment this and simply handle opening list
-                    //     with the extend menu button
+                    console.log("(props.canEdit): user is signed in, will play playlist");
+                    handleLoadList(event, idNamePair._id)
                 }
                 
             }}
             
         >
             <Box sx={{ p: 1, flexGrow: 1 }}>{idNamePair.name}</Box>
-            { props.canEdit && <p>test</p>}
-            {props.canEdit &&
-                <Box><Button onClick={(event) => {
+
+            {auth.loggedIn  &&
+                <Box><Button onClick={(event) => { //replaced props.canedit with auth
                             likeList(event, idNamePair._id)
-                        }} variant="outlined" startIcon={< ThumbUpIcon  style={{fontSize:'15pt' }}  />}>
+                        }} variant="outlined" startIcon={< ThumbUpIcon />}>
                 </Button></Box>
                 }
 
-                {props.canEdit &&
+                {auth.loggedIn && // replaced props.canedit with auth
                 <Box><Button onClick={(event) => {
                             duplOnClick(event, idNamePair._id)
-                        }} variant="outlined" startIcon={<DifferenceIcon style={{fontSize:'12pt' }} />}>
+                        }} variant="outlined" startIcon={<DifferenceIcon />}>
                 Dupl
                 </Button></Box>
                 }
             <Box sx={{ p: 1 }}>
                 
-                {props.canEdit && <IconButton onClick={handleToggleEdit} aria-label='edit' size='small' >
-                    <EditIcon style={{fontSize:'30pt'}  } />
+                {props.canEdit && <IconButton onClick={handleToggleEdit} aria-label='edit'>
+                    <EditIcon style={{fontSize:'25pt'}} />
                 </IconButton>}
                 
             </Box>
@@ -235,12 +232,10 @@ function ListCard(props) {
                 <IconButton onClick={(event) => {
                         handleDeleteList(event, idNamePair._id)
                     }} aria-label='delete'>
-                    <DeleteIcon style={{fontSize:'30pt' }}  />
+                    <DeleteIcon style={{fontSize:'25pt'}} />
                 </IconButton>
             }
             </Box>
-
-
             <ExpandMore
           expand={expanded}
           onClick={handleExpandClick}
@@ -249,23 +244,20 @@ function ListCard(props) {
         >
           <ExpandMoreIcon />
         </ExpandMore>
-        
+
         <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Typography paragraph>
+
             
 
-            {/* {console.log('test current list1',store.currentList)} */}
-            {/* insert song cards here */}
-            {console.log("testStore CurrPlayerList: ",store.currentPlayerList)}
-            {console.log("testStore CurrList: ",store.currentList)}
-            {/* {console.log("store.currentPlayerList : ", store.currentPlayerList[4].name)} */}
-            <b>replace this with the songcards</b>
+            test
+
             <span>NumSongs:</span> 
             { store.currentPlayerList &&   store.currentPlayerList[4].songs.length }
-            <p></p>
+            {/* <p></p>
             {' '}
-            
+
             {store.currentPlayerList && store.currentPlayerList[4].songs[0].title }
             {' by '}
             {store.currentPlayerList && store.currentPlayerList[4].songs[0].artist }
@@ -273,47 +265,50 @@ function ListCard(props) {
             <p></p>
             {store.currentPlayerList && store.currentPlayerList[4].songs[1].title }
             {' by '}
-            {store.currentPlayerList && store.currentPlayerList[4].songs[1].artist }
+            {store.currentPlayerList && store.currentPlayerList[4].songs[1].artist } */}
 
-            {/* {store.currentPlayerList[4] &&  console.log(store.currentPlayerList[4])} */}
-            {/* {store.currentPlayerList[4].songs && console.log('songs1:',store.currentPlayerList[4].songs )} */}
-            {/* {store.currentPlayerList && 
-            <Box>
-                store.currentPlayerList[4].songs.map((song, index) => (
-                    <SongCard
-                        id={'playlist-song-' + (index)}
-                        key={'playlist-song-' + (index)}
-                        index={index}
-                        song={song}
-                    />
-                ))  
-                </Box>
-            } */}
+            <Box>---------</Box>
+            {/* {store.currentPlayerList && store.currentPlayerList[4].songs.toString() } */}
+            {store.currentPlayerList && 
+                    <List 
+                id="playlist-cards" 
+                sx={{overflow: 'scroll', height: '87%', width: '100%', bgcolor: '#8000F00F'}}
+            >
+                {
+                    store.currentPlayerList[4].songs.map((song, index) => (
+                        <SongCard
+                            id={'playlist-song-' + (index)}
+                            key={'playlist-song-' + (index)}
+                            index={index}
+                            song={song}
+                        />
+                    ))  
+                }
+            </List>    
+        }           
 
-        
-            
+
           </Typography>
         </CardContent>
       </Collapse>
 
+
+            
             {/* <p style = {styleObj3}>test</p> */}
 
             <p style = {styleObj3}><Box> By:{idNamePair.ownerEmail} </Box> 
-            <Box> <ThumbUpIcon  /> <span fontSize='10'> </span>  numLikes:{ idNamePair.numLikes ? idNamePair.numLikes :0 } </Box>
-            <Box> <ThumbDownIcon  /> numDislikes:{idNamePair.numDislikes ? idNamePair.numDislikes :0 } </Box>
+            <Box >
+                <Box> <ThumbUpIcon/>  numLikes:{idNamePair.numLikes ? idNamePair.numLikes :0} </Box>
+                <Box> <InsertCommentIcon />  numComments:{idNamePair.comments ? idNamePair.comments.length:0} </Box>
+                <Box> <HearingIcon /> numListens: {idNamePair.numListens ? idNamePair.comments.length:0}</Box>
+                <Box> <HearingIcon /> isPublished: {idNamePair.isPublished ? String(idNamePair.isPublished) :  false}</Box>
+                <Box> < UnpublishedIcon  />  datePublished:{ idNamePair.datePublished &&(new Date(idNamePair.datePublished)).toDateString()}</Box>
+            </Box>
             
-            <Box> <InsertCommentIcon />  numComments:{idNamePair.comments ? idNamePair.comments.length:0} </Box>
-            <Box> <HearingIcon /> numListens: {idNamePair.numListens ? idNamePair.comments.length:0}</Box>
-            <Box> <PublishedWithChangesIcon/> isPublished:{String(idNamePair.isPublished)} </Box>
-            <Box> < UnpublishedIcon />  datePublished:{ idNamePair.datePublished &&(new Date(idNamePair.datePublished)).toDateString()}</Box>
             </p>
-            
-            
-            
+
         </ListItem>
-
         
-
     if (editActive) {
         cardElement =
             <TextField

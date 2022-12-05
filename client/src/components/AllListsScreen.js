@@ -27,6 +27,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { useState } from 'react';
 import TextField from '@mui/material/TextField';
+import AuthContext from '../auth';
 /*
     This React component lists all the top5 lists in the UI.
     this is currently copied from homscreen view where we are usually signed in
@@ -34,6 +35,7 @@ import TextField from '@mui/material/TextField';
 */
 const AllListsScreen = () => {
     const { store } = useContext(GlobalStoreContext);
+    const { auth } = useContext(AuthContext);
     useEffect(() => {
          store.loadPublishedPlaylists(); //need to uncomment or replace later for working
     }, []);
@@ -68,22 +70,15 @@ const AllListsScreen = () => {
     
     function enterKey_Listener_for_Search(event){
         console.log('enterKey_Listener_for_Search has been entered')
-        //store.setCurrentList()
-        console.log("store: ", store)
         const tempUserComment=userComment
         //console.log("tempQuery: ", tempUserComment)
         setUserComment('');
         console.log("tempQuery: ", tempUserComment)
 
         //setTempQuery(tempQuery);
-      console.log("test8", userComment)
-      //store.setCurrentList(event._id)
-       console.log("test8", store.currentPlayerList)
-        if (store.currentPlayerList[3] ){
-          console.log("line78 comment: ",userComment,store.currentPlayerList[3])
-          store.commitUserComment(userComment, store.currentPlayerList[3] ) //passes current playlist id
-        }
-        
+       
+        console.log("line78 comment: ",userComment,store.currentPlayerList[3])
+        store.commitUserComment(userComment, store.currentPlayerList[3] ) //passes current playlist id
 
 
     }
@@ -150,6 +145,7 @@ const AllListsScreen = () => {
     <div class="grid-child-purple">
         {/* Grid Column 1 */}
         <span>AllListsScreen -user is like a guest, click on a playlist first to load it</span>
+        { auth.loggedIn && <p> <b> User Is Logged In </b></p>}
         <div id="list-selector-list">
             {listCard}
             <MUIDeleteModal />

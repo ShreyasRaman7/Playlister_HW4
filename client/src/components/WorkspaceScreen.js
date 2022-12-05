@@ -47,10 +47,8 @@ function WorkspaceScreen() {
     return (
         <Box>
         <span>Workspace Screen</span> 
-        { store.currentList.songs.length >0 && <p>test</p>}
-        <h2>YouTube Playlist Example</h2>
+        { store.currentList.songs.length ==0 && <p>Add a Song!</p>}
             
-            <div id="youtube_player"></div>
         <List 
             id="playlist-cards" 
             sx={{ width: '100%', bgcolor: 'background.paper' }}
@@ -73,6 +71,7 @@ function WorkspaceScreen() {
          { store.currentList.songs.length>0 &&  <Button onClick= {publishButtonClickHandler} variant="contained">Publish Playlist</Button>   }
          { modalJSX }
          </Box>
+         
     )
 }
 
