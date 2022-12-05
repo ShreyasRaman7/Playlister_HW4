@@ -27,6 +27,9 @@ import Typography from '@mui/material/Typography';
 import SongCard from './SongCard.js'
 import HearingIcon from '@mui/icons-material/Hearing';
 import List from '@mui/material/List';
+import MUIDeleteModal from './MUIDeleteModal';
+import MUIEditSongModal from './MUIEditSongModal';
+import MUIRemoveSongModal from './MUIRemoveSongModal';
 
 import * as React from 'react';
 import WorkspaceScreen from './WorkspaceScreen';
@@ -111,7 +114,9 @@ const ExpandMore = styled((props) => {
             console.log("load " + event.target.id);
 
             // CHANGE THE CURRENT LIST
-            store.setCurrentList(id);
+
+            store.setCurrentList(id); 
+            //store.setCurrentList1(id); // does not push history /playlist
         }
     }
 
@@ -179,6 +184,15 @@ const ExpandMore = styled((props) => {
     if (store.isListNameEditActive) {
         cardStatus = true;
     }
+
+    let modalJSX = "";
+    if (store.isEditSongModalOpen()) {
+        modalJSX = <MUIEditSongModal />;
+    }
+    else if (store.isRemoveSongModalOpen()) {
+        modalJSX = <MUIRemoveSongModal />;
+    }
+
     let cardElement =
         <ListItem
             id={idNamePair._id}
@@ -192,12 +206,14 @@ const ExpandMore = styled((props) => {
                     console.log('now sending playlist of youtube ids to player');
                     handleGetPlaylistForPlayer(idNamePair._id);
                     //store.getPlaylistForPlayer();
-
+                    //handleLoadList(event, idNamePair._id)
 
                 }
                 else{
                     console.log("(props.canEdit): user is signed in, will play playlist");
+
                     handleLoadList(event, idNamePair._id)
+                    //i commented handleLoadList on Dec4
                 }
                 
             }}
@@ -270,12 +286,14 @@ const ExpandMore = styled((props) => {
             <Box>---------</Box>
             {/* {store.currentPlayerList && store.currentPlayerList[4].songs.toString() } */}
             {store.currentPlayerList && 
+
+            <Box>
                     <List 
                 id="playlist-cards" 
                 sx={{overflow: 'scroll', height: '87%', width: '100%', bgcolor: '#8000F00F'}}
             >
-                {
-                    store.currentPlayerList[4].songs.map((song, index) => (
+                { 
+                    store.currentPlayerList[4].songs.map((song, index) => ( // store.currentPlayerList[4] is current playlist
                         <SongCard
                             id={'playlist-song-' + (index)}
                             key={'playlist-song-' + (index)}
@@ -284,7 +302,9 @@ const ExpandMore = styled((props) => {
                         />
                     ))  
                 }
-            </List>    
+            </List>   
+            { modalJSX } 
+            </Box>
         }           
 
 
@@ -299,9 +319,10 @@ const ExpandMore = styled((props) => {
             <p style = {styleObj3}><Box> By:{idNamePair.ownerEmail} </Box> 
             <Box >
                 <Box> <ThumbUpIcon/>  numLikes:{idNamePair.numLikes ? idNamePair.numLikes :0} </Box>
+                <Box> <ThumbDownIcon/>  numDislikes:{idNamePair.numDislikes ? idNamePair.numDislikes :0} </Box>
                 <Box> <InsertCommentIcon />  numComments:{idNamePair.comments ? idNamePair.comments.length:0} </Box>
                 <Box> <HearingIcon /> numListens: {idNamePair.numListens ? idNamePair.comments.length:0}</Box>
-                <Box> <HearingIcon /> isPublished: {idNamePair.isPublished ? String(idNamePair.isPublished) :  false}</Box>
+                <Box> <PublishedWithChangesIcon /> isPublished: {idNamePair.isPublished ? String(idNamePair.isPublished) :  false}</Box>
                 <Box> < UnpublishedIcon  />  datePublished:{ idNamePair.datePublished &&(new Date(idNamePair.datePublished)).toDateString()}</Box>
             </Box>
             

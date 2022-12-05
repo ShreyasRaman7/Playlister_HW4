@@ -51,7 +51,9 @@ export default function SimpleListMenu() {
     //store.handleSortByName();
     console.log("in handle sort by name");
     setAnchorEl(null);
-    store.sortByLikes();
+    let tempList= store.sortByLikes();
+    console.log("tempListSortByLikes: ",tempList);
+
   }
 
   const handleSortByDislikes_menu = () => {

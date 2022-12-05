@@ -116,6 +116,7 @@ export default function SubAppBanner2() {
         console.log("tempQuery: ", tempQuery)
         //setTempQuery(tempQuery);
 
+        
 
 
     }
@@ -143,7 +144,7 @@ export default function SubAppBanner2() {
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static" style={{ background: 'white' }}>
+            <AppBar position="static" style={{ background: 'white'  } }>
                 <Toolbar>
                     <Typography                        
                         variant="h4"
@@ -162,7 +163,7 @@ export default function SubAppBanner2() {
                         color="warning"
                         focused 
                         id="outlined-name"
-                        label=""
+                        label="search"
                         value={query}
                         onChange={handleSearchChange}
                         onKeyDown={(e)=>handleEnterKeyPress(e)}

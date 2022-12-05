@@ -21,6 +21,8 @@ const playlistSchema = new Schema(
 
         likeUserEmails: { type: [String] }, //store user email, then to see num likes, we do count of unique emails
 
+        userListensList : { type: [String] },
+
 
         numDislikes: { type: [{
             dislikes: Number,

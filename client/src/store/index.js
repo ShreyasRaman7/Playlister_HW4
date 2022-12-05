@@ -459,34 +459,35 @@ function GlobalStoreContextProvider(props) {
             }
             return 0;
         } ); 
-        history.push('/');
+        history.push('/allLists');
     }
 
     store.sortByListens = async function () {
         store.idNamePairs.sort(function(a, b){
-            return b.listens - a.listens;
+            return b.numListens - a.numListens;
         })
-        history.push('/');
+        history.push('/allLists');
     }
     store.sortByLikes = async function () {
+        console.log("store.idNamePairs: ",store.idNamePairs);
         store.idNamePairs.sort(function(a, b){
-            return b.likes - a.likes;
+            return b.numLikes - a.numLikes;
         })
         history.push('/allLists');
     }
     store.sortByDislikes = async function () {
         store.idNamePairs.sort(function(a, b){
-            return b.dislikes - a.dislikes;
+            return b.numDislikes - a.numDislikes;
         })
-        history.push('/');
+        history.push('/allLists');
     }
     store.sortByDate = async function () {
         store.idNamePairs.sort(function(a,b) {
-            if (!a.published) return 1;
-            if (!b.published) return -1;
-            return new Date(b.date) - new Date(a.date);
+            if (!a.isPublished) return 1;
+            if (!b.isPublished) return -1;
+            return new Date(b.datePublished) - new Date(a.datePublished);
         })
-        history.push('/')
+        history.push('/allLists');
     }
 
 
@@ -534,7 +535,7 @@ function GlobalStoreContextProvider(props) {
         console.log("store.currentList after push - index 4 contains actual playlist",store.currentList[4])
 
         let newCommentList=store.currentList[4]
-        
+
         storeReducer({
             type: GlobalStoreActionType.COMMENT_LIST,
             payload: newCommentList
