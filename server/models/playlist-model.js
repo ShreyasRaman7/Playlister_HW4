@@ -14,34 +14,18 @@ const playlistSchema = new Schema(
             title: String,
             artist: String,
             youTubeId: String
-        }], required: true },
+        }] },
         isPublished: { type: Boolean, default:false},
-
-        numLikes: { type: Number, default: 0 }, 
-
-        likeUserEmails: { type: [String] }, //store user email, then to see num likes, we do count of unique emails
-
-        userListensList : { type: [String] },
-
-
-        numDislikes: { type: [{
-            dislikes: Number,
-            userEmail: [String]
-        }]}, //store user email, then to see num likes, we do count of unique emails
-
-        numListens: { type: [{
-            listens: Number,
-            userEmail: [String]
-        }]}, //store user email, then to see num likes, we do count of unique emails
-
+        userLikes: {type: Array},
+        numLikes: {type:Number, default: 0},
+        userDisLikes: {type: Array},
+        numDislikes: {type:Number, default: 0},
+        numListens: { type: Number, default: 0},
         datePublished: { type: Date, default:Date.now()},
-        
         comments: { type: [{
-            comment: String,
-            userEmail: String,
-            userFirstName: String,
-            userLastName: String
-        }]}, //store user email, then to see num likes, we do count of unique emails
+            user:String,
+            comment:String
+        }]}
     },
     { timestamps: true },
 )

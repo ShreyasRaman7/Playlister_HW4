@@ -174,6 +174,11 @@ const ExpandMore = styled((props) => {
         console.log('likeList entered')
         store.likeList(id);
     }
+    function dislikeList(event,id){
+        event.stopPropagation();
+        console.log('dislikeList entered')
+        store.dislikeList(id);
+    }
 
     let selectClass = "unselected-list-card";
     
@@ -221,13 +226,23 @@ const ExpandMore = styled((props) => {
         >
             <Box sx={{ p: 1, flexGrow: 1 }}>{idNamePair.name}</Box>
 
-            {auth.loggedIn  &&
+            {auth.loggedIn  && 
                 <Box><Button onClick={(event) => { //replaced props.canedit with auth
                             likeList(event, idNamePair._id)
-                        }} variant="outlined" startIcon={< ThumbUpIcon />}>
+                        }} variant="outlined" startIcon={< ThumbUpIcon /> }>
+                            <span>#likes:{idNamePair.numLikes ? idNamePair.numLikes :0}</span>
+                </Button>
+                
+                
+                </Box>
+                }
+            {auth.loggedIn  &&
+                <Box><Button onClick={(event) => { //replaced props.canedit with auth
+                            dislikeList(event, idNamePair._id)
+                        }} variant="outlined" startIcon={< ThumbDownIcon />}>
+                            <span>#dislikes:{idNamePair.numDislikes ? idNamePair.numDislikes :0}</span>
                 </Button></Box>
                 }
-
                 {auth.loggedIn && // replaced props.canedit with auth
                 <Box><Button onClick={(event) => {
                             duplOnClick(event, idNamePair._id)
@@ -268,6 +283,7 @@ const ExpandMore = styled((props) => {
             
 
             test
+
 
             <span>NumSongs:</span> 
             { store.currentPlayerList &&   store.currentPlayerList[4].songs.length }
@@ -315,18 +331,26 @@ const ExpandMore = styled((props) => {
 
             
             {/* <p style = {styleObj3}>test</p> */}
-
-            <p style = {styleObj3}><Box> By:{idNamePair.ownerEmail} </Box> 
+            <div className='ListInfo'>
+            
+            <p style = {styleObj3}>
+                
+            <Box> ListID:{idNamePair._id ? idNamePair._id: ''} </Box> 
+            <Box> ListName:{idNamePair.name ? idNamePair.name: ''} </Box> 
+                <Box> By userEmail:{idNamePair.ownerEmail ? idNamePair.ownerEmail: ''} </Box> 
             <Box >
+                <Box> <ThumbUpIcon/>  numUserLikesLen:{idNamePair.userLikes ? idNamePair.userLikes.length :0} </Box>
                 <Box> <ThumbUpIcon/>  numLikes:{idNamePair.numLikes ? idNamePair.numLikes :0} </Box>
                 <Box> <ThumbDownIcon/>  numDislikes:{idNamePair.numDislikes ? idNamePair.numDislikes :0} </Box>
                 <Box> <InsertCommentIcon />  numComments:{idNamePair.comments ? idNamePair.comments.length:0} </Box>
                 <Box> <HearingIcon /> numListens: {idNamePair.numListens ? idNamePair.comments.length:0}</Box>
                 <Box> <PublishedWithChangesIcon /> isPublished: {idNamePair.isPublished ? String(idNamePair.isPublished) :  false}</Box>
                 <Box> < UnpublishedIcon  />  datePublished:{ idNamePair.datePublished &&(new Date(idNamePair.datePublished)).toDateString()}</Box>
+                <Box> < UnpublishedIcon  />  lastUpdatedAt:{ idNamePair.updatedAt &&(new Date(idNamePair.updatedAt)).toDateString()}</Box>
             </Box>
             
             </p>
+            </div>
 
         </ListItem>
         

@@ -363,88 +363,81 @@ function GlobalStoreContextProvider(props) {
     }
 
 
+    // store.dislikeList = function (id) {
+    //     // GET THE LIST
+    //     async function asyncChangeListName(id) {
+    //         let response = await api.getPlaylistById(id);
+    //         if (response.data.success) {
+    //             let playlist = response.data.playlist;
+    //             //playlist.numDislikes +=1
+    //             async function updateList(playlist) {
+    //                 response = await api.updatePlaylistById(playlist._id, playlist);
+    //                 if (response.data.success) {
+    //                     async function getListPairs(playlist) {
+    //                         response = await api.getPlaylistPairs();
+    //                         if (response.data.success) {
+    //                             let pairsArray = response.data.idNamePairs;
+    //                             storeReducer({
+    //                                 type: GlobalStoreActionType.CHANGE_LIST_NAME,
+    //                                 payload: {
+    //                                     idNamePairs: pairsArray,
+    //                                     playlist: null
+    //                                 }
+    //                             });
+    //                         }
+    //                     }
+    //                     getListPairs(playlist);
+    //                 }
+    //             }
+    //             updateList(playlist);
+    //         }
+    //     }
+    //     asyncChangeListName(id);
+    // }
+
     store.dislikeList = function (id) {
-        // GET THE LIST
-        async function asyncChangeListName(id) {
-            let response = await api.getPlaylistById(id);
-            if (response.data.success) {
-                let playlist = response.data.playlist;
-                //playlist.numDislikes +=1
-                async function updateList(playlist) {
-                    response = await api.updatePlaylistById(playlist._id, playlist);
-                    if (response.data.success) {
-                        async function getListPairs(playlist) {
-                            response = await api.getPlaylistPairs();
-                            if (response.data.success) {
-                                let pairsArray = response.data.idNamePairs;
-                                storeReducer({
-                                    type: GlobalStoreActionType.CHANGE_LIST_NAME,
-                                    payload: {
-                                        idNamePairs: pairsArray,
-                                        playlist: null
-                                    }
-                                });
-                            }
-                        }
-                        getListPairs(playlist);
-                    }
-                }
-                updateList(playlist);
+        let user = auth.user.email;
+         
+        async function asyncDisLikes(id){
+            let response = await api.dislikePlaylists(id, user);
+            console.log("Response: ", response)
+            if(response.status === 200){
+                storeReducer({
+                    type:GlobalStoreActionType.DISLIKE_LIST,
+                    payload:user
+                })
+                
+                history.push('/allLists')
             }
         }
-        asyncChangeListName(id);
-    }
-
-    store.likeList = async function(id){
-        let user = auth.user.email;
-        console.log("user email" + user);
-        store.setCurrentList1(id)
-        let response = await api.likePlaylist(id,auth.user.email);
-        if (response.data.success) {
-            let playlist0= response.data;
-            store.currentList.numLikes +=1
-            console.log('store7',store.currentList);
-            console.log('store7',store.currentList.numLikes);
-            // console.log('successLike',response)
-            storeReducer({
-                type: GlobalStoreActionType.UPDATE_LIST,
-                payload: store.currentList
-            });
-            store.updateCurrentList()
-            //history.push("/");
-        }
-
-    }
-    // store.likeList = function (id) {
-    //     console.log('store.currentList1 passed-id:',id)
-        
-    //     store.setCurrentList1(id) //,its set current list that takes us to new page
-    //     //store.getPlaylistForPlayer(id);
-    //     console.log('store.currentList1',store.currentList);
-    //     //console.log('store.currentList1 test');
-    //     console.log('store.currentList1.numLikes',store.currentList.numLikes);
-    //     if (store.currentList) {
-    //         async function asyncUpdateCurrentList() {
-    //             store.currentList.numLikes = store.currentList.numLikes + 1;
-    //             console.log('store.currentList1.numLikes',store.currentList.numLikes);
-    //             const response = await api.updatePlaylistById(
-    //                 store.currentList._id,
-    //                 store.currentList
-    //             );
-    //             if (response.data.success) {
-    //                 console.log('like-counter-'+store.currentList._id);
-    //                 storeReducer({
-    //                     type: GlobalStoreActionType.LIKE_LIST,
-    //                     payload: { playlist: store.currentList}
-    //                 });
-    //                 //document.getElementById('like-counter-'+store.playerList._id).innerHTML = store.playerList.likes
-    //                 //history.push("/");
-    //             }
-    //         }
-    //         asyncUpdateCurrentList()
+        asyncDisLikes(id)
+       
             
-    //     }
-    // };
+    }
+
+
+    
+
+    store.likeList = function (id) {
+        let user = auth.user.email;
+         
+        async function asyncLikes(id){
+            let response = await api.likePlaylist(id, user);
+            console.log("Response: ", response)
+            if(response.status === 200){
+                storeReducer({
+                    payload:user
+                })
+                
+                 history.push('/allLists')
+            }
+        }
+        asyncLikes(id)
+       
+            
+    }
+
+
 
     store.sortByName = async function () {
         store.idNamePairs.sort(function(a, b){
@@ -459,6 +452,16 @@ function GlobalStoreContextProvider(props) {
             }
             return 0;
         } ); 
+        history.push('/allLists');
+    }
+
+    
+    store.sortByEditDate = async function () {
+        store.idNamePairs.sort(function(a,b) {
+            if (!a.isPublished) return 1;
+            if (!b.isPublished) return -1;
+            return new Date(b.updatedAt) - new Date(a.updatedAt);
+        })
         history.push('/allLists');
     }
 
@@ -544,36 +547,71 @@ function GlobalStoreContextProvider(props) {
         history.push('/')
     }
 
-    store.commitUserComment = async function(comment,id){
-        //console.log("test")
-        console.log("commitUserComment->",comment)
-        //console.log(auth.user.email)
-        //console.log(id)
-        //console.log(comment)
-        //store.currentList =['test']
-        //store.setCurrentList1(id)
-        //console.log('store current list: ',store.currentList)
-        store.setCurrentList1(id)
-        store.getPlaylistForPlayer1(id)
-        console.log("store.currentList - index 4 contains actual playlist",store.currentList[4])
-        store.currentList[4].comments.push(comment)
-        console.log("store.currentList after push - index 4 contains actual playlist",store.currentList[4])
+    // store.commitUserComment = async function(comment,id){
+    //     //console.log("test")
+    //     console.log("commitUserComment->",comment)
+    //     //console.log(auth.user.email)
+    //     //console.log(id)
+    //     //console.log(comment)
+    //     //store.currentList =['test']
+    //     //store.setCurrentList1(id)
+    //     //console.log('store current list: ',store.currentList)
+    //     store.setCurrentList1(id)
+    //     store.getPlaylistForPlayer1(id)
+    //     console.log("store.currentList - index 4 contains actual playlist",store.currentList[4])
+    //     store.currentList[4].comments.push(comment)
+    //     console.log("store.currentList after push - index 4 contains actual playlist",store.currentList[4])
 
-        let newCommentList=store.currentList[4]
+    //     let newCommentList=store.currentList[4]
 
-        storeReducer({
-            type: GlobalStoreActionType.COMMENT_LIST,
-            payload: newCommentList
-        });
+    //     storeReducer({
+    //         type: GlobalStoreActionType.COMMENT_LIST,
+    //         payload: newCommentList
+    //     });
 
 
-        //tps.clearAllTransactions();
-        //console.log(store.canUndo())
-        //history.push('/')
+    //     //tps.clearAllTransactions();
+    //     //console.log(store.canUndo())
+    //     //history.push('/')
         
-        //shows the right email, but only if signed in, as only signed in users can comment
+    //     //shows the right email, but only if signed in, as only signed in users can comment
+    // }
+
+    store.comments = function (id, comment) {
+        let user = auth.user.email;
+       
+        async function asyncLikes(id, comment){
+            let response = await api.commentList(id, user, comment);
+            console.log("Response: ", response)
+            if(response.status === 200){
+                storeReducer({
+                    payload:{user, comment}
+                })
+                
+                 history.push('/')
+            }
+        }
+        asyncLikes(id)
+       
+            
     }
 
+    store.listens = function (id){
+        async function asyncListen(id){
+           let response = await api.listensClicks(id);
+           console.log("Response: ", response)
+            console.log("ID:", id)
+           if(response.status === 200){
+              
+               
+               history.push('/')
+           }else{
+               console.log(id)
+           }
+       }
+       asyncListen(id)
+
+   }
     
     store.duplicateList = async function(id){
         console.log("id for duplicate in store: ",id)

@@ -13,6 +13,7 @@ const options = [
   'Listens (High-Low)',
   'Likes (High-Low)',
   'Dislikes (High-Low)',
+  'Edit Date (newest)'
 ];
 
 
@@ -63,6 +64,13 @@ export default function SimpleListMenu() {
     store.sortByDislikes();
   }
 
+  const handleSortByEditDate_menu = () => {
+    //store.handleSortByName();
+    console.log("in handleSortByEditDate_menu");
+    setAnchorEl(null);
+    store.sortByEditDate();
+  }
+
   const handleMenuItemClick = (event, index) => {
     setSelectedIndex(index);
     console.log("selectedIndex: ", index);
@@ -89,6 +97,9 @@ export default function SimpleListMenu() {
       case 5:
         // Dislikes (High-Low)
         handleSortByDislikes_menu();
+        break;
+      case 6:
+        handleSortByEditDate_menu();
         break;
       default:
         // code block

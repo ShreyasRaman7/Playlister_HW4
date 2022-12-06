@@ -10,6 +10,84 @@ const User = require('../models/user-model');
 
 
 
+// likePlaylist = async (req, res) => {
+//     await Playlist.findOne({userLikes: req.body.user}, (err, user ) => {
+//         if(!user){
+//             Playlist.updateOne({_id:req.params.id},
+//                 {$inc: {numlikes: 1},
+//                 $push: {userLikes: req.body.user}},(err, data) => {
+//                if(err){
+//                    return res.status(404).json({
+//                        err,
+//                        message: 'Playlist not found!',
+//                    })
+//                }else{
+//                 return res.status(200).json({ success: true, description: "Likes updated !user" ,user: user});
+//                }
+              
+//            })
+//         }else{
+//             Playlist.updateOne({_id:req.params.id},
+//                 {$inc: {numlikes: -1},
+//                 $pull: {userLikes: req.body.user}},(err, data) => {
+//                if(err){
+//                    return res.status(404).json({
+//                        err,
+//                        message: 'Playlist not found!',
+//                    })
+//                }else{
+//                 return res.status(200).json({ success: true, description: "Likes updated _user" ,user:req.body.user,datacann:data});
+//                }
+              
+//            })
+//         }
+//     })
+   
+// }
+
+
+
+// dislikePlaylist = (req, res) => {
+
+// }
+
+dislikePlaylist = async (req, res) => {
+    await Playlist.findOne({userDisLikes: req.body.user}, (err, user ) => {
+        if(!user){
+            Playlist.updateOne({_id:req.params.id},
+                {$inc: {numDislikes: 1},
+                $push: {userDisLikes: req.body.user}},(err, data) => {
+               if(err){
+                   return res.status(404).json({
+                       err,
+                       message: 'Playlist not found!',
+                   })
+               }else{
+                console.log(user)
+                return res.status(200).json({ success: true, description: "User DisLikes updated" });
+               }
+              
+           })
+        }else{
+            Playlist.updateOne({_id:req.params.id},
+                {$inc: {numDislikes: -1},
+                $pull: {userDisLikes: req.body.user}},(err, data) => {
+               if(err){
+                   return res.status(404).json({
+                       err,
+                       message: 'Playlist not found!',
+                   })
+               }else{
+                return res.status(200).json({ success: true, description: "User DisLikes updated" });
+               }
+              
+           })
+        }
+    })
+   
+}
+
+
 likePlaylist = async (req, res) => {
     await Playlist.findOne({userLikes: req.body.user}, (err, user ) => {
         if(!user){
@@ -22,7 +100,8 @@ likePlaylist = async (req, res) => {
                        message: 'Playlist not found!',
                    })
                }else{
-                return res.status(200).json({ success: true, description: "Likes updated !user" ,user: user});
+                console.log(user)
+                return res.status(200).json({ success: true, description: "User Likes updated" });
                }
               
            })
@@ -36,7 +115,7 @@ likePlaylist = async (req, res) => {
                        message: 'Playlist not found!',
                    })
                }else{
-                return res.status(200).json({ success: true, description: "Likes updated _user" ,user:req.body.user,datacann:data});
+                return res.status(200).json({ success: true, description: "User DisLikes updated" });
                }
               
            })
@@ -46,10 +125,6 @@ likePlaylist = async (req, res) => {
 }
 
 
-
-dislikePlaylist = (req, res) => {
-
-}
 
 createPlaylist = (req, res) => {
     const body = req.body;
@@ -314,6 +389,37 @@ updatePlaylist = async (req, res) => {
     })
 }
 
+// commentPlaylist = async (req, res) => {
+//     const body = req.body
+//     if (!body) {
+//         return res.status(400).json({
+//             success: false,
+//             error: 'You must provide a body to update',
+//         })
+//     }
+
+//     Playlist.findOneAndUpdate({ _id: req.params.id }, {
+//         $push : {comments: 
+//             {comment:req.body.comment, user:req.body.user}, 
+//         }
+//         },
+//         (err, playlist) => {
+//         console.log("playlist found: " + JSON.stringify(playlist.comments));
+//         if (err) {
+//             return res.status(404).json({
+//                 err,
+//                 message: 'Playlist not found!',
+//             })
+//         }else{
+            
+//             return res.status(200).json({
+//                 success: true,
+//                 message: 'User commented Successful',
+//             })
+//         }
+//     })
+// }
+
 commentPlaylist = async (req, res) => {
     const body = req.body
     if (!body) {
@@ -346,6 +452,22 @@ commentPlaylist = async (req, res) => {
 }
 
 
+playlistListens = async (req, res) =>{
+    Playlist.updateOne({_id:req.params.id},
+                {$inc: {numListens: 1}},(err, data) => {
+               if(err){
+                   return res.status(404).json({
+                       err,
+                       message: 'Playlist not found!',
+                   })
+               }else{
+               console.log("Data: ",data)
+                return res.status(200).json({ success: true, description: "User DisLikes updated" });
+               }
+              
+           })
+}
+
 module.exports = {
     createPlaylist,
     deletePlaylist,
@@ -356,7 +478,7 @@ module.exports = {
     getPublishedPlaylists,
     guestGetPlaylistById,
     likePlaylist,
+    commentPlaylist,
     dislikePlaylist,
-    commentPlaylist
-
+    playlistListens
 }

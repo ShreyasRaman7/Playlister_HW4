@@ -145,7 +145,7 @@ const AllListsScreen = () => {
     <div class="grid-child-purple">
         {/* Grid Column 1 */}
         <span>AllListsScreen -user is like a guest, click on a playlist first to load it</span>
-        { auth.loggedIn && <p> <b> User Is Logged In </b></p>}
+        { auth.loggedIn && <p> <b> UserIs Logged In </b></p>}
         <div id="list-selector-list">
             {listCard}
             <MUIDeleteModal />
@@ -159,7 +159,7 @@ const AllListsScreen = () => {
       <Box>
         <Tabs value={tabIndex} onChange={handleTabChange}>
           <Tab label="Youtube Player" />
-          <Tab label="Comments Section" />\
+           <Tab label="Comments Section" /> 
         </Tabs>
       </Box>
       <Box sx={{ padding: 2 }}>
@@ -178,7 +178,9 @@ const AllListsScreen = () => {
         )}
         
         {tabIndex === 1 && (
+          
           <Box>
+            <Box>
             <Typography>The Comments tab</Typography>
             <Box>
 
@@ -189,11 +191,15 @@ const AllListsScreen = () => {
               </List>
             </Paper>
             
+            {auth.userIsLoggedIn &&
             <TextField id="filled-basic" label="Enter Comment:" variant="filled" value={userComment}
                         onChange={handleQueryChange}
                         onKeyDown={(e)=>handleEnterKeyPress(e)} onSubmit={handleSubmit}/>
+                      }
+            Can Only Comment if Logged In          
             
             </Box>
+          </Box>
           </Box>
         )}
         
