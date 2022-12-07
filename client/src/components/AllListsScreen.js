@@ -28,6 +28,7 @@ import ListItemText from '@mui/material/ListItemText';
 import { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import AuthContext from '../auth';
+import Comments from "./Comments.js";
 /*
     This React component lists all the top5 lists in the UI.
     this is currently copied from homscreen view where we are usually signed in
@@ -185,9 +186,9 @@ const AllListsScreen = () => {
             <Box>
 
             <Paper style={{maxHeight: 400, overflow: 'auto'}}>
+              <Comments/>
               <List>
-              <ListItem>test</ListItem>
-              <ListItem>test</ListItem>
+              
               </List>
             </Paper>
             
