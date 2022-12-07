@@ -17,7 +17,7 @@ const playlistSchema = new Schema(
         }] },
         isPublished: { type: Boolean, default:false},
         userLikes: {type: Array},
-        numLikes: {type:Number, default: 0},
+        numlikes: {type:Number, default: 0},
         userDisLikes: {type: Array},
         numDislikes: {type:Number, default: 0},
         numListens: { type: Number, default: 0},

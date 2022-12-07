@@ -395,6 +395,29 @@ function GlobalStoreContextProvider(props) {
     //     asyncChangeListName(id);
     // }
 
+    // store.dislikeList = function (id) {
+    //     let user = auth.user.email;
+         
+    //     async function asyncDisLikes(id){
+    //         let response = await api.dislikePlaylists(id, user);
+    //         console.log("Response: ", response)
+    //         if(response.status === 200){
+    //             storeReducer({
+    //                 //type:GlobalStoreActionType.DISLIKE_LIST,
+    //                 payload:user
+    //             })
+    //             store.loadIdNamePairs()
+    //             history.push('/allLists')
+    //             store.loadIdNamePairs()
+    //             history.push('/')
+    //             history.push('/allLists')
+    //         }
+    //     }
+    //     asyncDisLikes(id)
+       
+            
+    // }
+
     store.dislikeList = function (id) {
         let user = auth.user.email;
          
@@ -403,13 +426,10 @@ function GlobalStoreContextProvider(props) {
             console.log("Response: ", response)
             if(response.status === 200){
                 storeReducer({
-                    //type:GlobalStoreActionType.DISLIKE_LIST,
+                    
                     payload:user
                 })
                 store.loadIdNamePairs()
-                history.push('/allLists')
-                store.loadIdNamePairs()
-                history.push('/')
                 history.push('/allLists')
             }
         }
@@ -417,7 +437,6 @@ function GlobalStoreContextProvider(props) {
        
             
     }
-
 
     
 
@@ -431,17 +450,11 @@ function GlobalStoreContextProvider(props) {
                 storeReducer({
                     payload:user
                 })
-                
-                 history.push('/allLists')
+                store.loadIdNamePairs()
+                history.push('/allLists')
             }
         }
         asyncLikes(id)
-
-         //store.loadIdNamePairs()
-        //         history.push('/allLists')
-        //         store.loadIdNamePairs()
-        //         history.push('/')
-        //         history.push('/allLists')
        
             
     }
