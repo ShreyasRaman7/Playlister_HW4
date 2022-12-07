@@ -151,7 +151,7 @@ export default function SubAppBanner2() {
         if(searchByUserBool){searchByUserBool=!searchByUserBool}
         else{searchByUserBool=true}
         console.log("searchByUserBool: ",searchByUserBool)
-        //store.hideModals()
+        store.hideModals()
         if(searchByUserBool){
             console.log("search By User")
             store.toggleSearchForUser()

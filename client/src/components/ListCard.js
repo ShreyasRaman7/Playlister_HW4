@@ -30,6 +30,7 @@ import List from '@mui/material/List';
 import MUIDeleteModal from './MUIDeleteModal';
 import MUIEditSongModal from './MUIEditSongModal';
 import MUIRemoveSongModal from './MUIRemoveSongModal';
+import WatchIcon from '@mui/icons-material/Watch';
 
 import * as React from 'react';
 import WorkspaceScreen from './WorkspaceScreen';
@@ -169,6 +170,12 @@ const ExpandMore = styled((props) => {
         store.duplicateList(id);
     }
 
+
+    function doNothin(event){
+        event.stopPropagation();
+        console.log("");
+    }
+
     function likeList(event,id){
         event.stopPropagation();
         console.log('likeList entered')
@@ -178,6 +185,12 @@ const ExpandMore = styled((props) => {
         event.stopPropagation();
         console.log('dislikeList entered')
         store.dislikeList(id);
+    }
+
+    function playlistViews(event,id){
+        event.stopPropagation();
+        console.log('playlistViews entered')
+        store.listens(id);
     }
 
     let selectClass = "unselected-list-card";
@@ -212,6 +225,8 @@ const ExpandMore = styled((props) => {
                     handleGetPlaylistForPlayer(idNamePair._id);
                     //store.getPlaylistForPlayer();
                     //handleLoadList(event, idNamePair._id)
+                    playlistViews(event, idNamePair._id)
+                    
 
                 }
                 else{
@@ -236,6 +251,15 @@ const ExpandMore = styled((props) => {
                 
                 </Box>
                 }
+            
+            
+            {auth.loggedIn  &&
+                <Box>
+                <Button variant="outlined" onClick={(event)=>{doNothin(event)}} startIcon={<WatchIcon />} >
+                    <span>{idNamePair.numListens && idNamePair.numListens}</span>
+                </Button></Box>
+                }   
+
             {auth.loggedIn  &&
                 <Box><Button onClick={(event) => { //replaced props.canedit with auth
                             dislikeList(event, idNamePair._id)
@@ -343,7 +367,7 @@ const ExpandMore = styled((props) => {
                 <Box> <ThumbUpIcon/>  numLikes:{idNamePair.numLikes ? idNamePair.numLikes :0} </Box>
                 <Box> <ThumbDownIcon/>  numDislikes:{idNamePair.numDislikes ? idNamePair.numDislikes :0} </Box>
                 <Box> <InsertCommentIcon />  numComments:{idNamePair.comments ? idNamePair.comments.length:0} </Box>
-                <Box> <HearingIcon /> numListens: {idNamePair.numListens ? idNamePair.comments.length:0}</Box>
+                <Box> <HearingIcon /> numListens: {idNamePair.numListens ? idNamePair.numListens:0}</Box>
                 <Box> <PublishedWithChangesIcon /> isPublished: {idNamePair.isPublished ? String(idNamePair.isPublished) :  false}</Box>
                 <Box> < UnpublishedIcon  />  datePublished:{ idNamePair.datePublished &&(new Date(idNamePair.datePublished)).toDateString()}</Box>
                 <Box> < UnpublishedIcon  />  lastUpdatedAt:{ idNamePair.updatedAt &&(new Date(idNamePair.updatedAt)).toDateString()}</Box>

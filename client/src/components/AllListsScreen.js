@@ -191,7 +191,7 @@ const AllListsScreen = () => {
               </List>
             </Paper>
             
-            {auth.userIsLoggedIn &&
+            {auth.loggedIn &&
             <TextField id="filled-basic" label="Enter Comment:" variant="filled" value={userComment}
                         onChange={handleQueryChange}
                         onKeyDown={(e)=>handleEnterKeyPress(e)} onSubmit={handleSubmit}/>

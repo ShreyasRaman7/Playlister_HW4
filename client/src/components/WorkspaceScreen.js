@@ -68,7 +68,7 @@ function WorkspaceScreen() {
          
          {  isPublished && <Box component="span" sx={{ p: 2, backgroundColor:'#32CD32',border: '1px dashed grey' }}>Is Published</Box>}
          
-         { store.currentList.songs.length>0 &&  <Button onClick= {publishButtonClickHandler} variant="contained">Publish Playlist</Button>   }
+          { store.currentList.songs.length>0 &&  <Button onClick= {publishButtonClickHandler} variant="contained">Publish Playlist</Button>   }
          { modalJSX }
          </Box>
          

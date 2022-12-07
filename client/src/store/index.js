@@ -629,8 +629,8 @@ function GlobalStoreContextProvider(props) {
             console.log("ID:", id)
            if(response.status === 200){
               
-               
-               history.push('/')
+            //    store.loadIdNamePairs()
+            //    history.push('/')
            }else{
                console.log(id)
            }

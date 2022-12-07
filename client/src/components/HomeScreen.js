@@ -158,10 +158,7 @@ const HomeScreen = () => {
             <header className="YoutubePlayerTab">
         Youtube Player:
         <YouTubePlayerExample />
-        {/* <Button onClick={prevClickHandler} variant="contained"><FastRewindIcon /></Button>
-        <Button onClick={pauseClickHandler} variant="contained"><PauseIcon /></Button>
-        <Button onClick={playClickHandler} variant="contained"><PlayArrowIcon /></Button>
-        <Button onClick={nextClickHandler} variant="contained"><FastForwardIcon /></Button> */}
+        
       </header>
           </Box>
         )}
