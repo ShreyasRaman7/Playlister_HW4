@@ -289,8 +289,9 @@ getPlaylistPairs = async (req, res) => {
                             views:list.numListens,
                             songs:list.songs,
                             isPublished: list.isPublished,
+                            isPublished: list.published,
                             datePublished: list.datePublished,
-                            updatedAt: list.updatedAt,
+                            updatedAt: list.updatedAt, 
                             
 
                         };
