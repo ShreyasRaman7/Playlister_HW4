@@ -447,7 +447,7 @@ commentPlaylist = async (req, res) => {
         }
         },
         (err, playlist) => {
-        console.log("playlist found: " + JSON.stringify(playlist.comments));
+        //odconsole.log("playlist found: " + JSON.stringify(playlist.comments));
         if (err) {
             return res.status(404).json({
                 err,

@@ -117,6 +117,7 @@ const ExpandMore = styled((props) => {
             // CHANGE THE CURRENT LIST
 
             store.setCurrentList(id); 
+
             //store.setCurrentList1(id); // does not push history /playlist
         }
     }
@@ -358,7 +359,7 @@ const ExpandMore = styled((props) => {
             <div className='ListInfo'>
             
             <p style = {styleObj3}>
-                
+            {auth.HOME && test}
             <Box> ListID:{idNamePair._id ? idNamePair._id: ''} </Box> 
             <Box> ListName:{idNamePair.name ? idNamePair.name: ''} </Box> 
                 <Box> By userEmail:{idNamePair.ownerEmail ? idNamePair.ownerEmail: ''} </Box> 

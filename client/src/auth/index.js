@@ -12,8 +12,12 @@ export const AuthActionType = {
     LOGIN_USER: "LOGIN_USER",
     LOGOUT_USER: "LOGOUT_USER",
     REGISTER_USER: "REGISTER_USER",
-    LOGIN_FAILED: "LOGIN_FAILED"
+    LOGIN_FAILED: "LOGIN_FAILED",
+    ERROR: "ERROR"
+   
 }
+
+
 
 function AuthContextProvider(props) {
     const [auth, setAuth] = useState({
@@ -33,34 +37,57 @@ function AuthContextProvider(props) {
             case AuthActionType.GET_LOGGED_IN: {
                 return setAuth({
                     user: payload.user,
-                    loggedIn: payload.loggedIn
+                    loggedIn: payload.loggedIn,
+                    
                 });
             }
             case AuthActionType.LOGIN_USER: {
                 return setAuth({
                     user: payload.user,
                     loggedIn: true,
-                    errMessage: ""
+                    errMessage: "",
+                    
                 })
             }
             case AuthActionType.LOGOUT_USER: {
                 return setAuth({
                     user: null,
                     loggedIn: false,
-                    errMessage:''
+                    errMessage:'',
+                    
                 })
             }
             case AuthActionType.REGISTER_USER: {
                 return setAuth({
                     user: payload.user,
                     loggedIn: true,
-                    errMessage:''
+                    errMessage:'',
+                    
                 })
             }
             case AuthActionType.LOGIN_FAILED: { //I added to handle when login fails and added error message in auth 
                 return setAuth({
                     user: payload.user,
                     errMessage: payload.errMessage
+                })
+            }
+            
+            case AuthActionType.ERROR: {
+                return setAuth({
+                    user: null,
+                    loggedIn: false,
+                    errorMessage: payload.errorMessage,
+                    
+                })
+            }
+            
+            
+            case AuthActionType.GUEST: {
+                return setAuth({
+                    user: payload.user,
+                    loggedIn: true,
+                    errorMessage: "",
+                    
                 })
             }
             default:

@@ -603,21 +603,21 @@ function GlobalStoreContextProvider(props) {
     //     //shows the right email, but only if signed in, as only signed in users can comment
     // }
 
-    store.comments = function (id, comment) {
+    store.comments = function (comment, id) {
         let user = auth.user.email;
-       
-        async function asyncLikes(id, comment){
-            let response = await api.commentList(id, user, comment);
+       let commentTemp= comment
+        async function asyncLikes(id, commentTemp){
+            let response = await api.commentList(id, user, commentTemp); //api.comment list not a function yet
             console.log("Response: ", response)
             if(response.status === 200){
                 storeReducer({
-                    payload:{user, comment}
+                    payload:{user, commentTemp}
                 })
                 
                  history.push('/')
             }
         }
-        asyncLikes(id)
+        asyncLikes(id,commentTemp)
        
             
     }
@@ -651,7 +651,8 @@ function GlobalStoreContextProvider(props) {
                 let newListName= (playlist.name + ' copy'+dupeCounter)
                 const responseCreateDupe = await api.createPlaylist(newListName, playlist.songs, auth.user.email);
                 console.log("responseCreateDupe response data: " + responseCreateDupe);
-                store.loadIdNamePairs();
+                
+                history.push('/allLists');
             }
             
         }

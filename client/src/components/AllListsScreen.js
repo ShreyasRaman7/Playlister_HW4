@@ -76,9 +76,9 @@ const AllListsScreen = () => {
         console.log("tempQuery: ", tempUserComment)
 
         //setTempQuery(tempQuery);
-       
+       //store.currentplayerlist3 is id of playlist
         console.log("line78 comment: ",userComment,store.currentPlayerList[3])
-        store.commitUserComment(userComment, store.currentPlayerList[3] ) //passes current playlist id
+        store.comments(userComment, store.currentPlayerList[3] ) //passes current playlist id
 
 
     }
@@ -144,7 +144,7 @@ const AllListsScreen = () => {
     
     <div class="grid-child-purple">
         {/* Grid Column 1 */}
-        <span>AllListsScreen -user is like a guest, click on a playlist first to load it</span>
+        <span>AllListsScreen -user is like a guest, click on a playlist first to load it. The default playlist loaded while waiting is the original, starting with Fast Train.</span>
         { auth.loggedIn && <p> <b> UserIs Logged In </b></p>}
         <div id="list-selector-list">
             {listCard}
@@ -186,8 +186,8 @@ const AllListsScreen = () => {
 
             <Paper style={{maxHeight: 400, overflow: 'auto'}}>
               <List>
-              {/* <ListItem>test</ListItem>
-              <ListItem>test</ListItem> */}
+              <ListItem>test</ListItem>
+              <ListItem>test</ListItem>
               </List>
             </Paper>
             

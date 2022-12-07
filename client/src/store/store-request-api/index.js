@@ -27,7 +27,8 @@ export const createPlaylist = (newListName, newSongs, userEmail) => {
         // SPECIFY THE PAYLOAD
         name: newListName,
         songs: newSongs,
-        ownerEmail: userEmail
+        ownerEmail: userEmail,
+        isPublished:false
     })
 }
 
@@ -42,7 +43,7 @@ export const dislikePlaylists = (id, user) => {
         user: user
     })}
 
-    export const commentList = (id, comment, user) => {
+    export const commentList = (id, user, comment) => {
     return api.put(`/comments/${id}`, {
         // SPECIFY THE PAYLOAD
         user: user,
@@ -66,6 +67,7 @@ export const updatePlaylistById = (id, playlist) => {
 
 const apis = {
     likePlaylist,
+    commentList,
     createPlaylist,
     deletePlaylistById,
     getPlaylistById,
