@@ -20,7 +20,10 @@ import logo from './playlisterLogo.png';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import TextField from '@mui/material/TextField';
 import SortMenu from "./SortMenu.js";
+import Button from '@mui/material/Button';
 
+
+let searchByUserBool = false
 export default function SubAppBanner2() {
     const { auth } = useContext(AuthContext);
     const { store } = useContext(GlobalStoreContext);
@@ -142,6 +145,26 @@ export default function SubAppBanner2() {
         }
     }
 
+    function searchByUser(){
+        console.log('test')
+        console.log("entered search by user")
+        if(searchByUserBool){searchByUserBool=!searchByUserBool}
+        else{searchByUserBool=true}
+        console.log("searchByUserBool: ",searchByUserBool)
+        //store.hideModals()
+        if(searchByUserBool){
+            console.log("search By User")
+            store.toggleSearchForUser()
+        
+        }
+        
+        
+        
+        
+        
+
+    }
+
 
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -155,7 +178,11 @@ export default function SubAppBanner2() {
                     >
                         <Link style={{ textDecoration: 'none', color: 'crimson' }} to='/'> <HomeOutlinedIcon/> </Link>
                         <Link style={{ textDecoration: 'none', color: 'crimson' }} to='/allLists'> <GroupsOutlinedIcon/> </Link>
-                        <Link style={{ textDecoration: 'none', color: 'crimson' }} to='/'> <PersonOutlineOutlinedIcon/> </Link>
+                        
+                        {/* <Link style={{ textDecoration: 'none', color: 'crimson' }} to='/'> <PersonOutlineOutlinedIcon/> </Link> */}
+                        
+                        <Button variant="contained"  onClick={searchByUser} > <PersonOutlineOutlinedIcon/></Button>
+                            {  searchByUserBool && <Box component="span" sx={{ p: 1.5, backgroundColor:'salmon',border: '1px dashed grey' ,fontSize :'12px'}}> <b >Searching by User:</b> </Box>}
                         
                         <box backgroundColor="white">
                         <TextField

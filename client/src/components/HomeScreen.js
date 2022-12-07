@@ -41,8 +41,12 @@ const HomeScreen = () => {
 
         //setTempQuery(tempQuery);
        
-        console.log("line78 comment: ",userComment,store.currentPlayerList[3])
-        store.commitUserComment(userComment, store.currentPlayerList[3] ) //passes current playlist id
+        //console.log("line78 comment: ",userComment,store.currentPlayerList[3])
+        console.log("line78 comment: ",userComment)
+        console.log("line78 comment: ",store.currentPlayerList[3])
+
+        //store.commitUserComment(userComment, store.currentPlayerList[3] ) //passes current playlist id
+        store.comments()
 
 
     }

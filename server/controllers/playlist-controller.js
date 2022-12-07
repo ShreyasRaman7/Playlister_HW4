@@ -281,7 +281,14 @@ getPlaylistPairs = async (req, res) => {
                         let list = playlists[key];
                         let pair = {
                             _id: list._id,
-                            name: list.name
+                            name: list.name,
+                             numLikes: list.numlikes,
+                             ownerEmail: list.ownerEmail,
+                             numDislikes: list.numDislikes,
+                             //numListens: list.numListens,
+                             //songs: list.songs,
+                             //updatedAt: list.updatedAt,
+
                         };
                         pairs.push(pair);
                     }

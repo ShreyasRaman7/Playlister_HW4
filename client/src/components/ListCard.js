@@ -202,7 +202,7 @@ const ExpandMore = styled((props) => {
         <ListItem
             id={idNamePair._id}
             key={idNamePair._id}
-            sx={{ marginTop: '15px', display: 'flex', p: 1 }}
+            sx={{ marginTop: '15px', display: 'flex', p: 1 ,borderRadius: "25px" ,borderColor: "black", borderStyle: "",bgcolor: "lightgray", borderColor: "black",}}
             style={{ width: '100%', fontSize: '20pt' }}
             button
             onClick={(event) => {

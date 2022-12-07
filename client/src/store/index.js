@@ -403,10 +403,13 @@ function GlobalStoreContextProvider(props) {
             console.log("Response: ", response)
             if(response.status === 200){
                 storeReducer({
-                    type:GlobalStoreActionType.DISLIKE_LIST,
+                    //type:GlobalStoreActionType.DISLIKE_LIST,
                     payload:user
                 })
-                
+                store.loadIdNamePairs()
+                history.push('/allLists')
+                store.loadIdNamePairs()
+                history.push('/')
                 history.push('/allLists')
             }
         }
@@ -433,6 +436,12 @@ function GlobalStoreContextProvider(props) {
             }
         }
         asyncLikes(id)
+
+         //store.loadIdNamePairs()
+        //         history.push('/allLists')
+        //         store.loadIdNamePairs()
+        //         history.push('/')
+        //         history.push('/allLists')
        
             
     }
@@ -518,6 +527,10 @@ function GlobalStoreContextProvider(props) {
         history.push('/allLists')
     }
 
+
+    store.toggleSearchForUser= function(){
+        console.log("entered store.toggleSearchForUser")
+    }
 
 
     store.publishPlaylist = function (){
