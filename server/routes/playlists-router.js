@@ -15,11 +15,11 @@ router.get('/playlist/:id', auth.verify, PlaylistController.getPlaylistById)
 router.get('/playlistpairs', auth.verify, PlaylistController.getPlaylistPairs)
 router.get('/playlists', auth.verify, PlaylistController.getPlaylists)
 router.put('/playlist/:id', auth.verify, PlaylistController.updatePlaylist)
-router.get('/publishedPlaylists', auth.verify, PlaylistController.getPublishedPlaylists)
+router.get('/publishedPlaylists', PlaylistController.getPublishedPlaylists)
 router.get('/guestGetPlaylist/:id',  PlaylistController.guestGetPlaylistById) //for guests to access playlist songs in youtube player
 router.put('/likes/:id', auth.verify, PlaylistController.likePlaylist)
 router.put('/dislikes/:id', auth.verify,PlaylistController.dislikePlaylist)
 router.put('/comments/:id', auth.verify,  PlaylistController.commentPlaylist)
-router.put('/listens/:id', auth.verify,  PlaylistController.playlistListens)
+router.put('/listens/:id',   PlaylistController.playlistListens)
 
 module.exports = router

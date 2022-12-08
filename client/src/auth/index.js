@@ -82,14 +82,14 @@ function AuthContextProvider(props) {
             }
             
             
-            case AuthActionType.GUEST: {
-                return setAuth({
-                    user: payload.user,
-                    loggedIn: true,
-                    errorMessage: "",
+            // case AuthActionType.GUEST: {
+            //     return setAuth({
+            //         user: payload.user,
+            //         loggedIn: true,
+            //         errorMessage: "",
                     
-                })
-            }
+            //     })
+            // }
             default:
                 return auth;
         }

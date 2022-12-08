@@ -164,6 +164,10 @@ export default function SubAppBanner2() {
         
 
     }
+    function onAllListsClick(){
+        store.hideModals()
+        store.loadPublishedPlaylists()
+    }
 
 
     return (
@@ -177,7 +181,7 @@ export default function SubAppBanner2() {
                         sx={{ display: { xs: 'none', sm: 'block' } }}                        
                     >
                         <Link style={{ textDecoration: 'none', color: 'crimson' }} to='/'> <HomeOutlinedIcon/> </Link>
-                        <Link style={{ textDecoration: 'none', color: 'crimson' }} to='/allLists'> <GroupsOutlinedIcon/> </Link>
+                        <Link style={{ textDecoration: 'none', color: 'crimson' }}  onClick={onAllListsClick} to='/allLists'> <GroupsOutlinedIcon/>  </Link>
                         
                         {/* <Link style={{ textDecoration: 'none', color: 'crimson' }} to='/'> <PersonOutlineOutlinedIcon/> </Link> */}
                         

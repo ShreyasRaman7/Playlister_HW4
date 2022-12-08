@@ -118,7 +118,7 @@ const ExpandMore = styled((props) => {
 
             store.setCurrentList(id); 
 
-            //store.setCurrentList1(id); // does not push history /playlist
+            //store.setCurrentList1(id); // does not push history /playlist/id
         }
     }
 
@@ -220,7 +220,7 @@ const ExpandMore = styled((props) => {
             style={{ width: '100%', fontSize: '20pt' }}
             button
             onClick={(event) => {
-                if(!props.canEdit){
+                if(!props.canEdit){ //cannot edit
                     console.log("(!props.canEdit): user not signed in, will play playlist");
                     console.log('now sending playlist of youtube ids to player');
                     handleGetPlaylistForPlayer(idNamePair._id);
