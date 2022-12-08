@@ -87,7 +87,6 @@ dislikePlaylist = async (req, res) => {
    
 }
 
-
 likePlaylist = async (req, res) => {
     await Playlist.findOne({userLikes: req.body.user}, (err, user ) => {
         if(!user){
@@ -101,7 +100,7 @@ likePlaylist = async (req, res) => {
                    })
                }else{
                 console.log(user)
-                return res.status(200).json({ success: true, description: "User Likes updated" });
+                return res.status(200).json({ success: true, description: "User DisLikes updated" });
                }
               
            })
@@ -123,6 +122,43 @@ likePlaylist = async (req, res) => {
     })
    
 }
+
+//orig like playlist below
+// likePlaylist = async (req, res) => {
+//     await Playlist.findOne({userLikes: req.body.user}, (err, user ) => {
+//         if(!user){
+//             Playlist.updateOne({_id:req.params.id},
+//                 {$inc: {numlikes: 1},
+//                 $push: {userLikes: req.body.user}},(err, data) => {
+//                if(err){
+//                    return res.status(404).json({
+//                        err,
+//                        message: 'Playlist not found!',
+//                    })
+//                }else{
+//                 console.log(user)
+//                 return res.status(200).json({ success: true, description: "User Likes updated" });
+//                }
+              
+//            })
+//         }else{
+//             Playlist.updateOne({_id:req.params.id},
+//                 {$inc: {numlikes: -1},
+//                 $pull: {userLikes: req.body.user}},(err, data) => {
+//                if(err){
+//                    return res.status(404).json({
+//                        err,
+//                        message: 'Playlist not found!',
+//                    })
+//                }else{
+//                 return res.status(200).json({ success: true, description: "User DisLikes updated" });
+//                }
+              
+//            })
+//         }
+//     })
+   
+// }
 
 
 
@@ -283,7 +319,6 @@ getPlaylistPairs = async (req, res) => {
                             _id: list._id,
                             name: list.name,
                             numLikes:list.numlikes,
-                            numDislikes:list.numdislikes,
                             numDislikes:list.numDislikes,
                             numListens:list.numListens,
                             views:list.numListens,

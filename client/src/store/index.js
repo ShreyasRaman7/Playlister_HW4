@@ -429,7 +429,8 @@ function GlobalStoreContextProvider(props) {
                     
                     payload:user
                 })
-                store.loadIdNamePairs()
+                store.loadPublishedPlaylists()
+                store.hideModals()
                 history.push('/allLists')
             }
         }
@@ -450,7 +451,9 @@ function GlobalStoreContextProvider(props) {
                 storeReducer({
                     payload:user
                 })
-                store.loadIdNamePairs()
+                //store.loadIdNamePairs()
+                store.loadPublishedPlaylists()
+                store.hideModals()
                 history.push('/allLists')
             }
         }

@@ -243,11 +243,11 @@ const ExpandMore = styled((props) => {
             <Box sx={{ p: 1, flexGrow: 1 }}>{idNamePair.name}</Box>
 
             {auth.loggedIn  && 
-                <Box><Button onClick={(event) => { //replaced props.canedit with auth
+                <Box> { !props.canEdit && <Button onClick={(event) => { //replaced props.canedit with auth
                             likeList(event, idNamePair._id)
                         }} variant="outlined" startIcon={< ThumbUpIcon /> }>
-                            <span>#likes:{idNamePair.numLikes ? idNamePair.numLikes :0}</span>
-                </Button>
+                            <span>#likes:{idNamePair.numlikes ? idNamePair.numlikes :0}</span>
+                </Button> } 
                 
                 
                 </Box>
@@ -256,19 +256,24 @@ const ExpandMore = styled((props) => {
             
             {auth.loggedIn  &&
                 <Box>
+
+            
                 <Button variant="outlined" onClick={(event)=>{doNothin(event)}} startIcon={<WatchIcon />} >
                     <span>{idNamePair.numListens && idNamePair.numListens}</span>
-                </Button></Box>
+                </Button>
+                
+                </Box>
+                
                 }   
 
             {auth.loggedIn  &&
-                <Box><Button onClick={(event) => { //replaced props.canedit with auth
+                <Box> { !props.canEdit && <Button onClick={(event) => { //replaced props.canedit with auth
                             dislikeList(event, idNamePair._id)
                         }} variant="outlined" startIcon={< ThumbDownIcon />}>
                             <span>#dislikes:{idNamePair.numDislikes ? idNamePair.numDislikes :0}</span>
-                </Button></Box>
+                </Button> }  </Box>
                 }
-                {auth.loggedIn && // replaced props.canedit with auth
+                {!props.canEdit && // replaced props.canedit with auth
                 <Box><Button onClick={(event) => {
                             duplOnClick(event, idNamePair._id)
                         }} variant="outlined" startIcon={<DifferenceIcon />}>
