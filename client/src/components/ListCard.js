@@ -157,7 +157,7 @@ const ExpandMore = styled((props) => {
 
     
 
-    function handleGetPlaylistForPlayer(id){ //using to get playlist to play in player
+    function handleGetPlaylistForPlayer(event,id){ //using to get playlist to play in player
         console.log("handleGetPlaylistForPlayer for id: " + id);
         store.getPlaylistForPlayer1(id); //keeps track of active player updates playlist id, accessible elsewhere
         // console.log(store.getPlaylistForPlayer(id));
@@ -220,20 +220,27 @@ const ExpandMore = styled((props) => {
             style={{ width: '100%', fontSize: '20pt' }}
             button
             onClick={(event) => {
-                if(!props.canEdit){ //cannot edit
+                if(!props.canEdit){ //cannot edit, all List Screen view, we load songcards, no edits
                     console.log("(!props.canEdit): user not signed in, will play playlist");
                     console.log('now sending playlist of youtube ids to player');
-                    handleGetPlaylistForPlayer(idNamePair._id);
+                    handleGetPlaylistForPlayer(event,idNamePair._id);
                     //store.getPlaylistForPlayer();
                     //handleLoadList(event, idNamePair._id)
                     playlistViews(event, idNamePair._id)
                     
 
                 }
-                else{
+                else{ //props CAN edit, so we handleLoadList->store.setCurrentList()->history.push('/playlist/id') currently before change,
+                    //i made a store.setCurrentList1() that does not history.push('playlist/'id) 
                     console.log("(props.canEdit): user is signed in, will play playlist");
 
+                    handleGetPlaylistForPlayer(event,idNamePair._id);
+                    
                     handleLoadList(event, idNamePair._id)
+
+                    //playlistViews(event, idNamePair._id) //so guest can view will implement
+
+
                     //i commented handleLoadList on Dec4
                 }
                 
@@ -331,6 +338,8 @@ const ExpandMore = styled((props) => {
 
             <Box>---------</Box>
             {/* {store.currentPlayerList && store.currentPlayerList[4].songs.toString() } */}
+            {/* {props.canEdit && <p>props.canEdit is true</p>}
+            {!props.canEdit && <p>props.canEdit is false</p>} */}
             {store.currentPlayerList && 
 
             <Box>
@@ -369,8 +378,8 @@ const ExpandMore = styled((props) => {
             <Box> ListName:{idNamePair.name ? idNamePair.name: ''} </Box> 
                 <Box> By userEmail:{idNamePair.ownerEmail ? idNamePair.ownerEmail: ''} </Box> 
             <Box >
-                <Box> <ThumbUpIcon/>  numUserLikesLen:{idNamePair.userLikes ? idNamePair.userLikes.length :0} </Box>
-                <Box> <ThumbUpIcon/>  numLikes:{idNamePair.numLikes ? idNamePair.numLikes :0} </Box>
+                {/* <Box> <ThumbUpIcon/>  numUserLikesLen:{idNamePair.userLikes ? idNamePair.userLikes.length :0} </Box> */}
+                <Box> <ThumbUpIcon/>  numLikes:{idNamePair.numlikes ? idNamePair.numlikes :0} </Box>
                 <Box> <ThumbDownIcon/>  numDislikes:{idNamePair.numDislikes ? idNamePair.numDislikes :0} </Box>
                 <Box> <InsertCommentIcon />  numComments:{idNamePair.comments ? idNamePair.comments.length:0} </Box>
                 <Box> <HearingIcon /> numListens: {idNamePair.numListens ? idNamePair.numListens:0}</Box>

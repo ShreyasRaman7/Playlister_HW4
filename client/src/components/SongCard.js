@@ -70,14 +70,23 @@ function SongCard(props) {
                 className="song-link"
                 href={"https://www.youtube.com/watch?v=" + song.youTubeId}>
                 {song.title} by {song.artist}
+                
             </a>
-            <input
+            {/* { props.canEdit &&
+            <div>props.canEdit is true in song Card</div>
+            }
+            { !props.canEdit &&
+            <div>props.canEdit is false in song Card</div>
+            } */}
+            { props.canEdit &&
+            <  input
                 type="button"
                 id={"remove-song-" + index}
                 className="list-card-button"
                 value={"\u2715"}
                 onClick={handleRemoveSong}
             />
+            }
         </div>
     );
 }
