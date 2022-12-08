@@ -431,6 +431,7 @@ function GlobalStoreContextProvider(props) {
                 })
                 store.loadPublishedPlaylists()
                 store.hideModals()
+                //history.push('/')
                 history.push('/allLists')
             }
         }
@@ -454,6 +455,7 @@ function GlobalStoreContextProvider(props) {
                 //store.loadIdNamePairs()
                 store.loadPublishedPlaylists()
                 store.hideModals()
+                //history.push('/')
                 history.push('/allLists')
             }
         }

@@ -235,7 +235,7 @@ const ExpandMore = styled((props) => {
                     console.log("(props.canEdit): user is signed in, will play playlist");
 
                     handleGetPlaylistForPlayer(event,idNamePair._id);
-                    
+
                     handleLoadList(event, idNamePair._id)
 
                     //playlistViews(event, idNamePair._id) //so guest can view will implement
